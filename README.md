@@ -4,9 +4,11 @@ OBOS is a back-office suite built for developers and IT consultants. It combines
 one slick Web application. One application means the user's administrative workflow is more efficient, which means he or she
 can spend more time on what matters: actually working.
 
-## Table of Contents
+## Table of contents
 
-1.  [Installation](#installation)
+-   [Installation](#installation)
+    -   [Installing Composer](#installing-composer)
+    -   [Installing the project](#installing-the-project)
 
 ## Installation
 
@@ -21,18 +23,16 @@ installing this project.
 
 ### Installing [Composer][composer]
 
-Composer is the foremost _dependency manager_ for PHP—much like **NuGet** for .NET or **RubyGems** for Ruby. If the idea of a
-package manager is new to you, take a look at the [Wiki][gh-wiki] to learn a little bit more.
-
-This project is built on Symfony, which relies on Composer to manage all of the components of the framework; if you don't
-already have it installed, you'll need to install it in order to begin working:
+Composer is the foremost _dependency manager_ for PHP—much like **NuGet** for .NET or **RubyGems** for Ruby. This project is
+built on Symfony, which _relies on Composer_ to manage all of the components of the framework; if you don't already have it
+installed, you'll need to install it in order to begin working:
 
 ```shell
 # You may need to use sudo depending on your system's permissions
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 ```
 
-### Installing the Project
+### Installing the project
 
 1.  Clone this repository:
 
@@ -52,12 +52,12 @@ curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin
     #       terminal window to stop it
     ```
 
-4.  Go to `http://localhost:8888/app_dev.php/projects/hello/[your-first-name]` in your browser to verify that the temporary
-    server is working properly.
+4.  Go to `http://localhost:8888/app_dev.php/` in your browser to verify that the temporary server is working properly.
 
     If you'd prefer to work with a normal Web server like Apache or Nginx, check Symfony's
     [Configuring a Web Server][symfony-webserver] article.
 
+## The front controller
 
 
 [composer]: https://getcomposer.org
