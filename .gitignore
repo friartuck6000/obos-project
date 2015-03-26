@@ -1,0 +1,36 @@
+# System, IDE and editor files
+.idea/
+.*.swp
+.buildpath
+.DS_Store
+.project
+.settings
+
+# Application cache
+/app/cache/*
+!/app/cache/.gitkeep
+/app/bootstrap.php.cache
+
+# Private parameters
+/app/config/parameters.yml
+
+# Logs
+/app/logs/*
+!/app/logs/.gitkeep
+
+# PHPUnit
+/app/phpunit.xml
+
+# Components and vendor packages
+/bin/
+/build/
+/vendor/
+
+# Web bundle symlinks
+/web/bundles/
+
+# Composer, in case it's not installed globally
+composer.phar
+
+# Ignore composer.lock during primary development phase
+composer.lock
