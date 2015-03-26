@@ -57,8 +57,6 @@ curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin
     If you'd prefer to work with a normal Web server like Apache or Nginx, check Symfony's
     [Configuring a Web Server][symfony-webserver] article.
 
-## The front controller
-
 
 [composer]: https://getcomposer.org
 [gh-wiki]: https://github.com/friartuck6000/obos-app/wiki
