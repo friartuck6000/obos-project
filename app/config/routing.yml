@@ -1,3 +1,8 @@
+obos_billing:
+    resource: "@ObosBillingBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
