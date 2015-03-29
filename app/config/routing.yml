@@ -1,3 +1,13 @@
+obos_admin:
+    resource: "@ObosAdminBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
+obos_core:
+    resource: "@ObosCoreBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 obos_project_management:
     resource: "@ObosProjectManagementBundle/Controller/"
     type:     annotation

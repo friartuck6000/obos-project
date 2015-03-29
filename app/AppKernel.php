@@ -20,6 +20,8 @@ class AppKernel extends Kernel
             new Obos\Bundle\BillingBundle\ObosBillingBundle(),
             new Obos\Bundle\TimekeepingBundle\ObosTimekeepingBundle(),
             new Obos\Bundle\ProjectManagementBundle\ObosProjectManagementBundle(),
+            new Obos\Bundle\CoreBundle\ObosCoreBundle(),
+            new Obos\Bundle\AdminBundle\ObosAdminBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
