@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new AppBundle\AppBundle(),
             new Obos\Bundle\BillingBundle\ObosBillingBundle(),
+            new Obos\Bundle\TimekeepingBundle\ObosTimekeepingBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

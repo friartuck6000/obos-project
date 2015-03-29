@@ -1,3 +1,8 @@
+obos_timekeeping:
+    resource: "@ObosTimekeepingBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 obos_billing:
     resource: "@ObosBillingBundle/Controller/"
     type:     annotation
