@@ -1,24 +1,24 @@
-obos_admin:
+admin:
     resource: "@ObosAdminBundle/Controller/"
     type:     annotation
     prefix:   /
 
-obos_core:
+core:
     resource: "@ObosCoreBundle/Controller/"
     type:     annotation
     prefix:   /
 
-obos_project_management:
+projectmanagement:
     resource: "@ObosProjectManagementBundle/Controller/"
     type:     annotation
     prefix:   /
 
-obos_timekeeping:
+timekeeping:
     resource: "@ObosTimekeepingBundle/Controller/"
     type:     annotation
     prefix:   /
 
-obos_billing:
+billing:
     resource: "@ObosBillingBundle/Controller/"
     type:     annotation
     prefix:   /
