@@ -24,6 +24,7 @@ class ClientManager
             ]
         ];
     }
+    
     public function getAllClients()
     {
         return $this->clients;
