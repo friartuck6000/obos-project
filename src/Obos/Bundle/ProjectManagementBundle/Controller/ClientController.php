@@ -28,7 +28,7 @@ class ClientController extends Controller
      */
     public function setContainer(ContainerInterface $container = NULL)
     {
-        parent::setContainer();
+        parent::setContainer($container);
 
         // Set a reference to the client manager service
         $this->clientManager = $this->get('obos.clients.manager');
