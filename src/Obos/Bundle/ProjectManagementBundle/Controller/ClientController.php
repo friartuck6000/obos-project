@@ -40,11 +40,12 @@ class ClientController extends Controller
      * Show a listing of existing clients.
      *
      * @Route("/", name="projectmanagement.clients.root")
+     * @Template()
      */
     public function indexAction()
     {
         // Get the list of existing clients.
-        $clients = $this->clientManager->getAllClients();
+        $clients = (array) $this->clientManager->getAllClients();
 
         return ['clients' => $clients];
     }
