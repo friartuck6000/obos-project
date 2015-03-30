@@ -1,0 +1,6 @@
+services:
+    
+    obos.clients.manager:
+        class: Obos\Bundle\ProjectManagementBundle\Manager\ClientManager
+        arguments:
+            # - '@doctrine'
