@@ -24,7 +24,7 @@ class ClientManager
             ]
         ];
     }
-    
+
     public function getAllClients()
     {
         return $this->clients;
@@ -35,7 +35,7 @@ class ClientManager
         // Look for a test "client"
         foreach ($this->clients as &$client)
         {
-            if ($client['id'] === $id)
+            if ($client['id'] == $id)
             {
                 return $client;
             }
