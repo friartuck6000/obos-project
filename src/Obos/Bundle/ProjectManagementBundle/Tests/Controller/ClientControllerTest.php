@@ -34,5 +34,12 @@ class ClientControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/clients/3');
 
         // Check response
+        $this->assertTrue(
+            $client->getResponse()->isSuccessful(),
+            sprintf(
+                'Response should be 2XX; %s received.',
+                $client->getResponse()->getStatusCode()
+            )
+        );
     }
 }
