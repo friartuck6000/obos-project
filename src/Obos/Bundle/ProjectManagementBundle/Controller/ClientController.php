@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller,
 /**
  * @Route("/clients")
  */
-class DefaultController extends Controller
+class ClientController extends Controller
 {
     /**
      * @var  ClientManager  A reference to the client management service object.
