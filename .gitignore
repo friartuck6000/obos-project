@@ -11,6 +11,10 @@
 !/app/cache/.gitkeep
 /app/bootstrap.php.cache
 
+# SQLite data directory
+/app/data/*
+!/app/data/.gitkeep
+
 # Private parameters
 /app/config/parameters.yml
 
