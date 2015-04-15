@@ -4,8 +4,7 @@ namespace Obos\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM,
     Symfony\Component\Validator\Constraints as Assert,
-    DateTime,
-    InvalidArgumentException;
+    DateTime;
 
 
 /**
@@ -16,12 +15,10 @@ use Doctrine\ORM\Mapping as ORM,
  *     @ORM\Index(columns={"clientID", "consultantID"})
  * })
  */
-class Project {
+class Project extends StatusedEntity {
 
-    const STATUS_CANCELLED = 0;
-    const STATUS_INACTIVE  = 1;
-    const STATUS_ACTIVE    = 2;
-    const STATUS_COMPLETE  = 3;
+    use ModifiableTrait,
+        DeliverableTrait;
 
     // -----------------------------------------------------------------------------------------------------------------
 
@@ -108,18 +105,6 @@ class Project {
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    private function getValidStatuses()
-    {
-        return [
-            self::STATUS_CANCELLED,
-            self::STATUS_INACTIVE,
-            self::STATUS_ACTIVE,
-            self::STATUS_COMPLETE
-        ];
-    }
-
-    // -----------------------------------------------------------------------------------------------------------------
-
     /**
      * @param   Client  $client
      * @return  $this
@@ -161,61 +146,12 @@ class Project {
     }
 
     /**
-     * @param   DateTime  $dateCreated
-     * @return  $this
-     */
-    public function setDateCreated(DateTime $dateCreated = NULL)
-    {
-        $this->dateCreated = $dateCreated ? $dateCreated : new DateTime();
-        return $this;
-    }
-
-    /**
-     * @param   DateTime  $dateModified
-     * @return  $this
-     */
-    public function setDateModified(DateTime $dateModified = NULL)
-    {
-        $this->dateModified = $dateModified ? $dateModified : new DateTime();
-        return $this;
-    }
-
-    /**
-     * @param   DateTime  $dateDue
-     * @return  $this
-     */
-    public function setDateDue(DateTime $dateDue)
-    {
-        $this->dateDue = $dateDue;
-        return $this;
-    }
-
-    /**
      * @param   bool  $flag
      * @return  $this
      */
     public function setAutoBilled($flag)
     {
         $this->isAutoBilled = (bool) $flag;
-        return $this;
-    }
-
-    /**
-     * @param   int  $status
-     * @return  $this
-     *
-     * @throws  InvalidArgumentException  if $status does not match one of the defined STATUS_
-     *                                    constant values.
-     */
-    public function setStatus($status)
-    {
-        if (!in_array($status, $this->getValidStatuses()))
-        {
-            throw new InvalidArgumentException('Invalid status given.');
-        }
-
-        $this->status = $status;
-
         return $this;
     }
 
@@ -262,84 +198,10 @@ class Project {
     }
 
     /**
-     * @return  DateTime
-     */
-    public function getDateCreated()
-    {
-        return $this->dateCreated;
-    }
-
-    /**
-     * @return  DateTime
-     */
-    public function getDateModified()
-    {
-        return $this->dateModified;
-    }
-
-    /**
-     * @return  DateTime
-     */
-    public function getDateDue()
-    {
-        return $this->dateDue;
-    }
-
-    /**
      * @return  bool
      */
     public function isAutoBilled()
     {
         return $this->isAutoBilled;
-    }
-
-    /**
-     * @return  int
-     */
-    public function getStatus()
-    {
-        return $this->status;
-    }
-
-    // -----------------------------------------------------------------------------------------------------------------
-
-    /**
-     * Automatically bump the creation and/or modification date to the current time.
-     *
-     * @return  $this
-     */
-    public function update()
-    {
-        $now = new DateTime();
-
-        // Set the creation time if this is a new entity
-        if (!$this->dateCreated)
-        {
-            $this->dateCreated = $now;
-        }
-
-        // Set the modification time
-        $this->dateModified = $now;
-
-        return $this;
-    }
-
-    /**
-     * Check whether the project has a given status.
-     *
-     * @param   int  $status  One of the STATUS_ constants defined in this class.
-     * @return  bool          Whether the project's status matches the queried status.
-     *
-     * @throws  InvalidArgumentException  if $status is not one of the defined STATUS_
-     *                                    constants.
-     */
-    public function statusIs($status)
-    {
-        if (!in_array($status, $this->getValidStatuses()))
-        {
-            throw new InvalidArgumentException('Invalid status query.');
-        }
-
-        return $this->status == $status;
     }
 }
