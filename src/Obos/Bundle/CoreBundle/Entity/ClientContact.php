@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM,
 
 /**
  * A contact point for a {@see Client}.
+ *
  * @ORM\Entity()
  * @ORM\Table(name="client_contacts", indexes={
  *    @ORM\Index(columns={"clientID"})

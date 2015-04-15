@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM,
 
 
 /**
+ * Represents a real-world client of the Consultant; the owner of one or more Projects.
+ *
  * @ORM\Entity()
  * @ORM\Table(name="clients", indexes={
  *     @ORM\Index(columns={"consultantID"})

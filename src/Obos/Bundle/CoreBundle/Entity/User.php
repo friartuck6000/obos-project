@@ -8,6 +8,9 @@ use Doctrine\ORM\Mapping as ORM,
 
 
 /**
+ * The general User entity; more specifically mapped to either {@see Administrator}
+ * or {@see Consultant}.
+ *
  * @ORM\Entity()
  * @ORM\Table(name="users")
  * @ORM\InheritanceType("SINGLE_TABLE")
@@ -73,14 +76,6 @@ class User
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * @return  int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
      * @param   string  $email
      * @return  $this
      */
@@ -89,6 +84,17 @@ class User
         $this->email = $email;
         return $this;
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * @return  int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
     /**
      * @return  string
      */
