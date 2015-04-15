@@ -11,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM,
  * The general User entity; more specifically mapped to either {@see Administrator}
  * or {@see Consultant}.
  *
+ * TODO: Finish setter/getter methods!
+ *
  * @ORM\Entity()
  * @ORM\Table(name="users")
  * @ORM\InheritanceType("SINGLE_TABLE")
@@ -22,6 +24,10 @@ use Doctrine\ORM\Mapping as ORM,
  */
 class User
 {
+    use IdentifierTrait;
+
+    // -----------------------------------------------------------------------------------------------------------------
+
     /**
      * @var  int
      *
@@ -86,15 +92,7 @@ class User
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-
-    /**
-     * @return  int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
+    
     /**
      * @return  string
      */

@@ -16,6 +16,10 @@ use Doctrine\ORM\Mapping as ORM,
  */
 class Client {
 
+    use IdentifierTrait;
+
+    // -----------------------------------------------------------------------------------------------------------------
+
     /**
      * @var  int  Client ID.
      *
@@ -150,15 +154,7 @@ class Client {
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * @return  int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return  User
+     * @return  Consultant
      */
     public function getConsultant()
     {

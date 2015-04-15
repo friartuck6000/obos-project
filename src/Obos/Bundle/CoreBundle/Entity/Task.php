@@ -11,11 +11,14 @@ use Doctrine\ORM\Mapping as ORM,
  * A unit-of-work belonging to a Project.
  *
  * @ORM\Entity()
- * @ORM\Table(name="project_tasks", indexes={})
+ * @ORM\Table(name="project_tasks", indexes={
+ *     @ORM\Index(columns={"projectID"})
+ * })
  */
 class Task extends StatusedEntity {
 
-    use ModifiableTrait,
+    use IdentifierTrait,
+        ModifiableTrait,
         DeliverableTrait;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -173,14 +176,6 @@ class Task extends StatusedEntity {
     }
 
     // -----------------------------------------------------------------------------------------------------------------
-
-    /**
-     * @return  int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * @return  Project

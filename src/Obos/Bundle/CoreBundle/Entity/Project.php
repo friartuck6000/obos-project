@@ -18,7 +18,8 @@ use Doctrine\ORM\Mapping as ORM,
  */
 class Project extends StatusedEntity {
 
-    use ModifiableTrait,
+    use IdentifierTrait,
+        ModifiableTrait,
         DeliverableTrait;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -197,14 +198,6 @@ class Project extends StatusedEntity {
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * @return  int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
      * @return  Client
      */
     public function getClient()
@@ -243,7 +236,7 @@ class Project extends StatusedEntity {
     {
         return $this->isAutoBilled;
     }
-    
+
     /**
      * @return  ArrayCollection
      */
