@@ -11,8 +11,6 @@ use Doctrine\ORM\Mapping as ORM,
  * The general User entity; more specifically mapped to either {@see Administrator}
  * or {@see Consultant}.
  *
- * TODO: Finish setter/getter methods!
- *
  * @ORM\Entity()
  * @ORM\Table(name="users")
  * @ORM\InheritanceType("SINGLE_TABLE")
@@ -91,6 +89,56 @@ class User
         return $this;
     }
 
+    /**
+     * @param   string  $password
+     * @return  $this
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+        return $this;
+    }
+
+    /**
+     * @param   string  $firstName
+     * @return  $this
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+        return $this;
+    }
+
+    /**
+     * @param   string  $lastName
+     * @return  $this
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+        return $this;
+    }
+
+    /**
+     * @param   DateTime  $dob
+     * @return  $this
+     */
+    public function setDob(DateTime $dob = NULL)
+    {
+        $this->dob = $dob;
+        return $this;
+    }
+
+    /**
+     * @param   DateTime  $lastLogin
+     * @return  $this
+     */
+    public function setLastLogin(DateTime $lastLogin = NULL)
+    {
+        $this->lastLogin = $lastLogin ? $lastLogin : new DateTime();
+        return $this;
+    }
+
     // -----------------------------------------------------------------------------------------------------------------
     
     /**
@@ -99,5 +147,45 @@ class User
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /**
+     * @return  string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * @return  string
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @return  string
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @return  DateTime
+     */
+    public function getDob()
+    {
+        return $this->dob;
+    }
+
+    /**
+     * @return  DateTime
+     */
+    public function getLastLogin()
+    {
+        return $this->lastLogin;
     }
 }
