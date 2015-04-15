@@ -3,6 +3,7 @@
 namespace Obos\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM,
+    Doctrine\Common\Collections\ArrayCollection,
     Symfony\Component\Validator\Constraints as Assert,
     DateTime;
 
@@ -106,6 +107,24 @@ class Project extends StatusedEntity {
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
+     * @var  ArrayCollection  The Tasks associated with this Project.
+     *
+     * @ORM\OneToMany(targetEntity="Task", mappedBy="project")
+     */
+    protected $tasks;
+
+    /**
+     * Constructor initializes the ArrayCollections for all the relationship properties.
+     *
+     */
+    public function __construct()
+    {
+        $this->tasks = new ArrayCollection();
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
      * @param   Client  $client
      * @return  $this
      */
@@ -152,6 +171,26 @@ class Project extends StatusedEntity {
     public function setAutoBilled($flag)
     {
         $this->isAutoBilled = (bool) $flag;
+        return $this;
+    }
+
+    /**
+     * @param   Task  $task
+     * @return  $this
+     */
+    public function addTask(Task $task)
+    {
+        $this->tasks->add($task);
+        return $this;
+    }
+
+    /**
+     * @param   Task  $task
+     * @return  $this
+     */
+    public function removeTask(Task $task)
+    {
+        $this->tasks->removeElement($task);
         return $this;
     }
 
@@ -203,5 +242,13 @@ class Project extends StatusedEntity {
     public function isAutoBilled()
     {
         return $this->isAutoBilled;
+    }
+    
+    /**
+     * @return  ArrayCollection
+     */
+    public function getTasks()
+    {
+        return $this->tasks;
     }
 }

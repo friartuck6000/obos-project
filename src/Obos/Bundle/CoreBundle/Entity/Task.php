@@ -39,7 +39,7 @@ class Task extends StatusedEntity {
     /**
      * @var  Project  The Project the Task belongs to.
      *
-     * @ORM\ManyToOne(targetEntity="Project")
+     * @ORM\ManyToOne(targetEntity="Project", inversedBy="tasks")
      * @ORM\JoinColumns({
      *     @ORM\JoinColumn(name="projectID", referencedColumnName="ID", onDelete="CASCADE")
      * })
