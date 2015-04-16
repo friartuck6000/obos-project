@@ -2,7 +2,8 @@
 
 namespace Obos\Bundle\CoreBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping as ORM,
+    Doctrine\Common\Collections\ArrayCollection;
 
 
 /**
@@ -59,6 +60,27 @@ class ClientContact
      * @ORM\Column(type="string", length=24, nullable=TRUE)
      */
     protected $fax;
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * @var  ArrayCollection  A list of ClientContact entities associated with this client.
+     *
+     * @ORM\OneToMany(targetEntity="ClientContact", mappedBy="client")
+     * @ORM\OrderBy({
+     *     "lastName"  = "ASC",
+     *     "firstName" = "ASC"
+     * })
+     */
+    protected $contacts;
+
+    /**
+     * Constructor; required to initialize collections.
+     */
+    public function __construct()
+    {
+        $this->contacts = new ArrayCollection();
+    }
 
     // -----------------------------------------------------------------------------------------------------------------
 
