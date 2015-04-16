@@ -2,7 +2,10 @@
 
 namespace Obos\Bundle\CoreBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping as ORM,
+    Doctrine\Common\Collections\ArrayCollection,
+    Doctrine\Common\Collections\Collection,
+    DateTime;
 
 
 /**
@@ -46,6 +49,28 @@ class Consultant extends User
      * @ORM\Column(type="string", length=32, nullable=TRUE)
      */
     protected $industry;
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * @var  ArrayCollection a collection of the user's projects.
+     *
+     * @ORM\OneToMany(targetEntity="Project", mappedBy="consultant")
+     * @ORM\OrderBy({
+     *    "dateDue" = "ASC",
+     *    "title"   = "ASC"
+     * })
+     */
+    protected $projects;
+
+    /**
+     * Constructor; required to initialize collections.
+     *
+     */
+    public function __construct()
+    {
+        $this->projects = new ArrayCollection();
+    }
 
     // -----------------------------------------------------------------------------------------------------------------
 
@@ -141,5 +166,36 @@ class Consultant extends User
     public function getIndustry()
     {
         return $this->industry;
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Get the entire project collection.
+     *
+     * @return  ArrayCollection
+     */
+    public function getAllProjects()
+    {
+        return $this->projects;
+    }
+
+    /**
+     * Filter the project collection by a particular status.
+     *
+     * @param   int  $status
+     * @return  Collection|static
+     */
+    public function getProjectsWithStatus($status = Project::STATUS_ACTIVE)
+    {
+        return $this->projects->filter(function(Project $p) use ($status)
+        {
+            if ($p->statusIs($status))
+            {
+                return TRUE;
+            }
+
+            return FALSE;
+        });
     }
 }

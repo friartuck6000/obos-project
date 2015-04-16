@@ -23,7 +23,7 @@ class Project extends Template\StatusedEntity
     /**
      * @var  Consultant  The consultant who owns this project.
      *
-     * @ORM\ManyToOne(targetEntity="Consultant")
+     * @ORM\ManyToOne(targetEntity="Consultant", inversedBy="projects")
      * @ORM\JoinColumn(name="consultantID", referencedColumnName="ID", onDelete="CASCADE")
      */
     protected $consultant;
