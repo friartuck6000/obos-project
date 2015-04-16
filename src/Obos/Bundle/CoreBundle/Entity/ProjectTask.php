@@ -2,11 +2,18 @@
 
 namespace Obos\Bundle\CoreBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping as ORM,
+    InvalidArgumentException;
 
 
 /**
  * A task associated with a project.
+ *
+ * @ORM\Entity()
+ * @ORM\Table(name="project_tasks", indexes={
+ *     @ORM\Index(columns={"status"}),
+ *     @ORM\Index(columns={"category"})
+ * })
  */
 class ProjectTask extends Template\StatusedEntity
 {
@@ -27,7 +34,7 @@ class ProjectTask extends Template\StatusedEntity
     /**
      * @var  Project  The project this task is associated with.
      *
-     * @ORM\ManyToOne(targetEntity="Project")
+     * @ORM\ManyToOne(targetEntity="Project", inversedBy="tasks")
      * @ORM\JoinColumn(name="projectID", referencedColumnName="ID", onDelete="CASCADE")
      */
     protected $project;

@@ -10,7 +10,9 @@ use Doctrine\ORM\Mapping as ORM,
  * The project entity.
  *
  * @ORM\Entity()
- * @ORM\Table(name="projects")
+ * @ORM\Table(name="projects", indexes={
+ *     @ORM\Index(columns={"status"})
+ * })
  */
 class Project extends Template\StatusedEntity
 {
@@ -71,12 +73,23 @@ class Project extends Template\StatusedEntity
     protected $timestamps;
 
     /**
+     * @var  ArrayCollection  A collection of tasks associated with this project.
+     *
+     * @ORM\OneToMany(targetEntity="ProjectTask", mappedBy="project")
+     * @ORM\OrderBy({
+     *    "dateDue" = "ASC"
+     * })
+     */
+    protected $tasks;
+
+    /**
      * Constructor; required to initialize collections.
      *
      */
     public function __construct()
     {
         $this->timestamps = new ArrayCollection();
+        $this->tasks = new ArrayCollection();
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -208,5 +221,17 @@ class Project extends Template\StatusedEntity
         }
 
         return NULL;
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Get the entire task list.
+     *
+     * @return  ArrayCollection
+     */
+    public function getAllTasks()
+    {
+        return $this->tasks;
     }
 }
