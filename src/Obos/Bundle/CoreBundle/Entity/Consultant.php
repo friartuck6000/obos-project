@@ -183,7 +183,7 @@ class Consultant extends User
     /**
      * Filter the project collection by a particular status.
      *
-     * @param   int  $status
+     * @param   string  $status
      * @return  Collection|static
      */
     public function getProjectsWithStatus($status = Project::STATUS_ACTIVE)

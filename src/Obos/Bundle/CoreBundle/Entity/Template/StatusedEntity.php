@@ -16,33 +16,31 @@ use Doctrine\ORM\Mapping as ORM,
 abstract class StatusedEntity
 {
     // Status options
-    const STATUS_CANCELLED = -1;
-    const STATUS_NEW       = 0;
-    const STATUS_INACTIVE  = 1;
-    const STATUS_ACTIVE    = 2;
-    const STATUS_COMPLETE  = 3;
+    const STATUS_CANCELLED = 'cancelled';
+    const STATUS_INACTIVE  = 'inactive';
+    const STATUS_ACTIVE    = 'active';
+    const STATUS_COMPLETE  = 'complete';
 
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
-     * @var  int  The entity's status.
+     * @var  string  The entity's status.
      *
-     * @ORM\Column(type="smallint", nullable=FALSE)
+     * @ORM\Column(type="string", length=24, nullable=FALSE)
      */
-    protected $status = self::STATUS_NEW;
+    protected $status = self::STATUS_ACTIVE;
 
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
      * Get a list of the available options for {@see $status}.
      *
-     * @return  int[]
+     * @return  string[]
      */
     public function getStatusOptions()
     {
         return [
             self::STATUS_CANCELLED,
-            self::STATUS_NEW,
             self::STATUS_INACTIVE,
             self::STATUS_ACTIVE,
             self::STATUS_COMPLETE
