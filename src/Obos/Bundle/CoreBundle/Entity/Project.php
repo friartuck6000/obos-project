@@ -61,6 +61,27 @@ class Project extends Template\StatusedEntity
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
+     * @var  ArrayCollection  A collection of this project's timestamps.
+     *
+     * @ORM\OneToMany(targetEntity="Timestamp", mappedBy="project")
+     * @ORM\OrderBy({
+     *     "startStamp" = "DESC"
+     * })
+     */
+    protected $timestamps;
+
+    /**
+     * Constructor; required to initialize collections.
+     *
+     */
+    public function __construct()
+    {
+        $this->timestamps = new ArrayCollection();
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
      * @param   Consultant  $consultant
      * @return  $this
      */
@@ -155,5 +176,37 @@ class Project extends Template\StatusedEntity
     public function isAutoBilled()
     {
         return $this->autoBilled;
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Get the entire timestamp list.
+     *
+     * @return  ArrayCollection
+     */
+    public function getAllTimestamps()
+    {
+        return $this->timestamps;
+    }
+
+    /**
+     * Try to find an open timestamp and return it if one is found.
+     *
+     * The {@see $timestamps} collection is sorted by start time, newest to oldest.
+     * Logically, if there is an open timestamp, it's the first one in the list, because
+     * we only allow one to be open at a time.
+     *
+     * @return  Timestamp|NULL
+     */
+    public function getOpenTimestamp()
+    {
+        $first = $this->timestamps->first();
+        if ($first instanceof Timestamp && !$first->getStopStamp())
+        {
+            return $first;
+        }
+
+        return NULL;
     }
 }

@@ -22,7 +22,7 @@ class Timestamp
     /**
      * @var  Project  The project this timestamp is allocated to.
      *
-     * @ORM\ManyToOne(targetEntity="Project")
+     * @ORM\ManyToOne(targetEntity="Project", inversedBy="timestamps")
      * @ORM\JoinColumn(name="projectID", referencedColumnName="ID", onDelete="CASCADE")
      */
     protected $project;
