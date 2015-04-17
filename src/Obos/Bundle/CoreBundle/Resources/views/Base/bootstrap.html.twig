@@ -1,0 +1,80 @@
+{%- set corebundle = 'bundles/oboscore/' -%}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <title>{% block pageTitle -%}
+        (Untitled)
+        {%- endblock %}</title>
+    {% block stylesheets -%}
+    <link rel="stylesheet" href="{{ asset(corebundle ~'css/app.css') }}"/>
+    <link rel="stylesheet" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"/>
+    {%- endblock %}
+</head>
+<body>
+
+{# Navbar #}
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar">
+                <span class="sr-only">Menu</span>
+                <i class="ion ion-navicon"></i>
+            </button>
+            <a href="{{ '#'|raw }}" class="navbar-brand">OBOS <sup><small>beta</small></sup></a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="app-navbar">
+            {# Main navigation #}
+            <ul class="nav navbar-nav">
+                <li><a href="#"><i class="icon ion ion-ios-box-outline"></i> Clients &amp; Projects</a></li>
+                <li><a href="#"><i class="icon ion ion-ios-clock-outline"></i> Timekeeping</a></li>
+                <li><a href="#"><i class="icon ion ion-ios-pulse"></i> Billing</a></li>
+            </ul>
+            {# User navigation #}
+            <ul class="nav navbar-nav navbar-right">
+            {# User is logged in #}
+            {% if app.user %}
+                <li><a href="#">{{ app.user.username }}</a></li>
+                <li><form action="{{ path('app_logout') }}"><button class="btn btn-warning navbar-btn" type="submit">Sign Out <i class="ion ion-log-out"></i></button></form></li>
+            {# User is not logged in #}
+            {% else %}
+                <li><a href="#">(Not signed in)</a></li>
+            {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid">
+
+    {# Main container #}
+    <section id="main">
+        <header id="app-header" class="page-header">
+            <h1>{{ block('pageTitle') }}</h1>
+        </header>
+    </section>
+
+    {# Show flash messages #}
+    {% for label, flashList in app.session.flashbag.all -%}
+    {%- for message in flashList if message %}
+    <div class="alert alert-{{ label }}">{{ message }}</div>
+    {% endfor -%}
+    {%- endfor %}
+
+    {# Body block #}
+    {% block bodyContent %}{% endblock %}
+
+    {# Footer #}
+    <section id="app-footer">
+        <p><strong>&copy;2015</strong> O'Tuckerson SG. All rights reserved.</p>
+    </section>
+</div>
+
+{% block scripts %}
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+{% endblock %}
+</body>
+</html>
