@@ -16,7 +16,7 @@ class PaymentMetaField extends Template\MetaField
     /**
      * @var  Payment  The payment this field is attached to.
      *
-     * @ORM\ManyToOne(targetEntity="Payment")
+     * @ORM\ManyToOne(targetEntity="Payment", inversedBy="meta")
      * @ORM\JoinColumn(name="paymentID", referencedColumnName="ID", onDelete="CASCADE")
      */
     protected $payment;

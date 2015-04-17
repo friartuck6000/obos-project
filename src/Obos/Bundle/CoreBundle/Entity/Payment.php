@@ -3,6 +3,7 @@
 namespace Obos\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM,
+    Doctrine\Common\Collections\ArrayCollection,
     DateTime;
 
 
@@ -38,7 +39,25 @@ class Payment
      *
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=FALSE)
      */
-    protected $amountPaid;
+    protected $amountPaid = '0.00';
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * @var  ArrayCollection  The metadata fields attached to this payment.
+     *
+     * @ORM\OneToMany(targetEntity="PaymentMetaField", mappedBy="payment")
+     */
+    protected $meta;
+
+    /**
+     * Constructor; required to initialize collections.
+     *
+     */
+    public function __construct()
+    {
+        $this->meta = new ArrayCollection();
+    }
 
     // -----------------------------------------------------------------------------------------------------------------
 
@@ -99,5 +118,35 @@ class Payment
     public function getAmountPaid()
     {
         return $this->amountPaid;
+    }
+
+    /**
+     * Get metadata.
+     *
+     * The return collection can optionally be filtered by a specific key. Furthermore,
+     * if $single is set and there is more than one field with the same key, only the
+     * most recent field will be returned.
+     *
+     * @param   string  $key
+     * @param   bool    $single
+     * @return  ArrayCollection|PaymentMetaField
+     */
+    public function getMeta($key = NULL, $single = FALSE)
+    {
+        // If no key was given, return the entire collection.
+        if (!$key)
+        {
+            return $this->meta;
+        }
+
+        // Otherwise filter the return collection.
+        $filtered = $this->meta->filter(function(PaymentMetaField $field) use ($key)
+        {
+            return ($field->getKey() === $key);
+        });
+
+        // If single was supplied, return only the most recent field; otherwise return
+        // the whole filtered collection
+        return ($single) ? $filtered->last() : $filtered;
     }
 }
