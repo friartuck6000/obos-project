@@ -1,0 +1,34 @@
+{% extends 'ObosCoreBundle:Base:bootstrap.html.twig' %}
+
+{% block pageTitle %}Welcome!{% endblock %}
+
+{% block bodyContent %}
+    <div class="row">
+        <div class="col-lg-4 col-sm-6">
+
+            <h3>Sign Into Your Account</h3>
+            <p>New here? <a href="{{ path('core_register') }}">Sign up</a> &ndash; we bet you'll love it.</p>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <form id="login-form" method="post" action="#">
+                        <div class="form-group">
+                            <label for="login-email">Email Address</label>
+                            <input id="login-email" name="_email" type="text" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <input id="login-password" name="_password" type="password" class="form-control"/>
+                        </div>
+
+                        <div>
+                            <button type="submit" class="btn btn-primary">Sign In <i class="icon ion-log-in"></i></button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

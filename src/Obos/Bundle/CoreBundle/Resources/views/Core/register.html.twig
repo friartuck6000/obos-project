@@ -1,0 +1,56 @@
+{% extends 'ObosCoreBundle:Base:bootstrap.html.twig' %}
+
+{% block pageTitle %}Create Your Account{% endblock %}
+
+{% block bodyContent %}
+    <div class="row">
+        <div class="col-lg-5 col-sm-6">
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <form id="login-form" method="post" action="#">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="login-email">Email Address</label>
+                                    <input id="login-email" name="_email" type="text" class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label for="login-password">Password</label>
+                                    <input id="login-password" name="_password" type="password" class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="name-first">First Name</label>
+                                    <input id="name-first" class="form-control" type="text"/>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="name-last">Last Name</label>
+                                    <input id="name-last" class="form-control" type="text"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button type="submit" class="btn btn-success">
+                                Register Now
+                                <i class="icon ion ion-ios-plus-outline"></i>
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
