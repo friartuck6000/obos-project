@@ -83,6 +83,16 @@ class Project extends Template\StatusedEntity
     protected $tasks;
 
     /**
+     * @var  ArrayCollection  A collection of assets owned by this project.
+     *
+     * @ORM\OneToMany(targetEntity="ProjectAsset", mappedBy="project")
+     * @ORM\OrderBy({
+     *     "dateModified" = "DESC"
+     * })
+     */
+    protected $assets;
+
+    /**
      * Constructor; required to initialize collections.
      *
      */
@@ -90,6 +100,7 @@ class Project extends Template\StatusedEntity
     {
         $this->timestamps = new ArrayCollection();
         $this->tasks = new ArrayCollection();
+        $this->assets = new ArrayCollection();
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -233,5 +244,15 @@ class Project extends Template\StatusedEntity
     public function getAllTasks()
     {
         return $this->tasks;
+    }
+
+    /**
+     * Get the entire asset list.
+     * 
+     * @return  ArrayCollection
+     */
+    public function getAllAssets()
+    {
+        return $this->assets;
     }
 }

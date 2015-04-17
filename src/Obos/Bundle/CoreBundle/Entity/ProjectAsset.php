@@ -22,7 +22,7 @@ class ProjectAsset
     /**
      * @var  Project  The project that owns this asset.
      *
-     * @ORM\ManyToOne(targetEntity="Project")
+     * @ORM\ManyToOne(targetEntity="Project", inversedBy="assets")
      * @ORM\JoinColumn(name="projectID", referencedColumnName="ID", onDelete="CASCADE")
      */
     protected $project;
