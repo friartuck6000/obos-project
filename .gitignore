@@ -30,6 +30,7 @@
 /build/
 /vendor/
 /node_modules/
+/web/bower/
 
 # Web bundle symlinks
 /web/bundles/
