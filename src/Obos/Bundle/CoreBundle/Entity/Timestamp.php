@@ -28,6 +28,14 @@ class Timestamp
     protected $project;
 
     /**
+     * @var  Invoice  The invoice that bills for this timestamp.
+     *
+     * @ORM\ManyToOne(targetEntity="Invoice", inversedBy="timestamps")
+     * @ORM\JoinColumn(name="invoiceID", referencedColumnName="ID", onDelete="SET NULL")
+     */
+    protected $invoice;
+
+    /**
      * @var  DateTime the starting timestamp.
      *
      * @ORM\Column(type="datetime", nullable=FALSE)
@@ -47,13 +55,6 @@ class Timestamp
      * @ORM\Column(type="text", nullable=TRUE)
      */
     protected $description;
-
-    /**
-     * @var  boolean  Flag indicating whether this timestamp has been billed.
-     *
-     * @ORM\Column(type="boolean", nullable=FALSE)
-     */
-    protected $billed = FALSE;
 
     // -----------------------------------------------------------------------------------------------------------------
 
@@ -101,17 +102,6 @@ class Timestamp
         return $this;
     }
 
-    /**
-     * @param   boolean  $billed
-     * @return  $this
-     */
-    public function setBilled($billed = TRUE)
-    {
-        $this->billed = $billed;
-
-        return $this;
-    }
-
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
@@ -120,6 +110,14 @@ class Timestamp
     public function getProject()
     {
         return $this->project;
+    }
+
+    /**
+     * @return  Invoice
+     */
+    public function getInvoice()
+    {
+        return $this->invoice;
     }
 
     /**
@@ -146,11 +144,31 @@ class Timestamp
         return $this->description;
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+
     /**
-     * @return  boolean
+     * Determine whether the timestamp is open or closed.
+     *
+     * @return  bool
+     */
+    public function isOpen()
+    {
+        if ($this->startStamp && !$this->stopStamp)
+        {
+            return TRUE;
+        }
+
+        return FALSE;
+    }
+
+    /**
+     * Determine whether the timestamp has been billed for; just syntactic sugar for checking whether
+     * an invoice has been assigned.
+     *
+     * @return  bool
      */
     public function isBilled()
     {
-        return $this->billed;
+        return ($this->invoice instanceof Invoice);
     }
 }

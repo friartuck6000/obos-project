@@ -215,7 +215,7 @@ class Project extends Template\StatusedEntity
     public function getOpenTimestamp()
     {
         $first = $this->timestamps->first();
-        if ($first instanceof Timestamp && !$first->getStopStamp())
+        if ($first instanceof Timestamp && $first->isOpen())
         {
             return $first;
         }
