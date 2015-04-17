@@ -9,9 +9,7 @@ use Doctrine\ORM\Mapping as ORM,
  * A pair of start/end timestamps denoting a work effort toward a project.
  *
  * @ORM\Entity()
- * @ORM\Table(name="timestamps", indexes={
- *     @ORM\Index(columns={"billed"})
- * })
+ * @ORM\Table(name="timestamps")
  */
 class Timestamp
 {
