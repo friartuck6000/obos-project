@@ -1,0 +1,30 @@
+{
+  "name": "obos-project",
+  "version": "1.0.0-dev",
+  "private": true,
+  "contributors": [
+    "Kyle Tucker <kyleatucker@gmail.com>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/friartuck6000/obos-project.git"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-jshint": "^0.11.0",
+    "grunt-contrib-less": "^1.0.0",
+    "grunt-contrib-uglify": "^0.8.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-modernizr": "^0.6.0",
+    "grunt-search": "^0.1.6",
+    "grunt-text-replace": "^0.4.0",
+    "less-plugin-autoprefix": "^1.3.0",
+    "load-grunt-tasks": "^3.1.0",
+    "time-grunt": "^1.1.0"
+  }
+}

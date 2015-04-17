@@ -29,6 +29,7 @@
 /bin/
 /build/
 /vendor/
+/node_modules/
 
 # Web bundle symlinks
 /web/bundles/
