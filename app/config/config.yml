@@ -59,7 +59,7 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         mappings:
             # The following line will be uncommented when the entity classes are available
-            # ObosCoreBundle: ~
+            ObosCoreBundle: ~
 
 # Swiftmailer Configuration
 swiftmailer:
