@@ -33,6 +33,11 @@ module.exports = function(grunt) {
 
         // Less compiler
         less: {
+            options: {
+                paths: [
+                    'web/bower'
+                ]
+            },
             dev: {
                 files: {
                     '<%= bundle.core.css %>/app.css': '<%= bundle.core.less %>/_*.less'
