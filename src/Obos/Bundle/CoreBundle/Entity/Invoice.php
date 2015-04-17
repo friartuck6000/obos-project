@@ -10,7 +10,9 @@ use Doctrine\ORM\Mapping as ORM,
  * A bill for work performed on a project.
  *
  * @ORM\Entity()
- * @ORM\Table(name="invoices")
+ * @ORM\Table(name="invoices", indexes={
+ *     @ORM\Index(columns={"paid"})
+ * })
  */
 class Invoice
 {
