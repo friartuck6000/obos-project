@@ -21,7 +21,7 @@ class Payment
     /**
      * @var  Invoice  The invoice this payment is to be recorded against.
      *
-     * @ORM\ManyToOne(targetEntity="Invoice")
+     * @ORM\ManyToOne(targetEntity="Invoice", inversedBy="payments")
      * @ORM\JoinColumn(name="invoiceID", referencedColumnName="ID", onDelete="CASCADE")
      */
     protected $invoice;

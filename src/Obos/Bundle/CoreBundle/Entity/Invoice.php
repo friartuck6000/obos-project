@@ -65,12 +65,23 @@ class Invoice
     protected $timestamps;
 
     /**
+     * @var  ArrayCollection  A collection of all the payments against this invoice.
+     *
+     * @ORM\OneToMany(targetEntity="Payment", mappedBy="invoice")
+     * @ORM\OrderBy({
+     *     "datePaid" = "DESC"
+     * })
+     */
+    protected $payments;
+
+    /**
      * Constructor; required for initializing collections.
      *
      */
     public function __construct()
     {
         $this->timestamps = new ArrayCollection();
+        $this->payments = new ArrayCollection();
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -156,9 +167,7 @@ class Invoice
         }
 
         // If property is FALSE, recalculate it
-        $this->paid = (abs((float) $this->amountBilled - (float) $this->amountDue) < 0.01);
-
-        return $this->paid;
+        return ($this->paid = ((float) $this->amountDue < 0.01));
     }
 
     /**
@@ -174,7 +183,7 @@ class Invoice
     /**
      * Determine whether an open timestamp has been claimed by this invoice. if one is found,
      * return it (presumably so it can be released from the invoice).
-     * 
+     *
      * @return  Timestamp|NULL
      */
     public function getOpenTimestamp()
@@ -186,5 +195,45 @@ class Invoice
         }
 
         return NULL;
+    }
+
+    /**
+     * Get the full list of associated payments.
+     *
+     * @return  ArrayCollection
+     */
+    public function getPayments()
+    {
+        return $this->payments;
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+
+    /**
+     * Refresh the {@see $amountDue} property by subtracting all recorded payments from the
+     * original {@see $amountBilled}.
+     *
+     * @return  string
+     */
+    public function refreshAmountDue()
+    {
+        // Initialize the new amount
+        $newAmountDue = (float) $this->amountBilled;
+
+        /** @var  $payment  Payment */
+        foreach ($this->payments as $payment)
+        {
+            // Subtract each payment amount; when all payments have been accounted for,
+            // the value of $newAmountDue will reflect the balance
+            $newAmountDue -= (float) $payment->getAmountPaid();
+        }
+
+        // We could throw this directly into a return statement, but by setting the property
+        // beforehand, we can update the paid flag before returning.
+        $this->amountDue = number_format($newAmountDue, 2, '.', '');
+        $this->isPaid();
+
+        return $this->amountDue;
     }
 }
