@@ -75,6 +75,13 @@ class Invoice
     protected $payments;
 
     /**
+     * @var  ArrayCollection The metadata attached to this invoice.
+     *
+     * @ORM\OneToMany(targetEntity="InvoiceMetaField", mappedBy="invoice")
+     */
+    protected $meta;
+
+    /**
      * Constructor; required for initializing collections.
      *
      */
@@ -82,6 +89,7 @@ class Invoice
     {
         $this->timestamps = new ArrayCollection();
         $this->payments = new ArrayCollection();
+        $this->meta = new ArrayCollection();
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -209,7 +217,6 @@ class Invoice
 
     // -----------------------------------------------------------------------------------------------------------------
 
-
     /**
      * Refresh the {@see $amountDue} property by subtracting all recorded payments from the
      * original {@see $amountBilled}.
@@ -236,4 +243,37 @@ class Invoice
 
         return $this->amountDue;
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Get metadata.
+     *
+     * The return collection can optionally be filtered by a specific key. Furthermore,
+     * if $single is set and there is more than one field with the same key, only the
+     * most recent field will be returned.
+     *
+     * @param   string  $key
+     * @param   bool    $single
+     * @return  ArrayCollection|InvoiceMetaField
+     */
+    public function getMeta($key = NULL, $single = FALSE)
+    {
+        // If no key was given, return the entire collection.
+        if (!$key)
+        {
+            return $this->meta;
+        }
+
+        // Otherwise filter the return collection.
+        $filtered = $this->meta->filter(function(InvoiceMetaField $field) use ($key)
+        {
+            return ($field->getKey() === $key);
+        });
+
+        // If single was supplied, return only the most recent field; otherwise return
+        // the whole filtered collection
+        return ($single) ? $filtered->last() : $filtered;
+    }
+
 }

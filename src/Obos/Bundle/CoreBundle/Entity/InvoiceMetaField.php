@@ -16,7 +16,7 @@ class InvoiceMetaField extends Template\MetaField
     /**
      * @var  Invoice  The invoice this field is attached to.
      *
-     * @ORM\ManyToOne(targetEntity="Invoice")
+     * @ORM\ManyToOne(targetEntity="Invoice", inversedBy="meta")
      * @ORM\JoinColumn(name="invoiceID", referencedColumnName="ID", onDelete="CASCADE")
      */
     protected $invoice;
