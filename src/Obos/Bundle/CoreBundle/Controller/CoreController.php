@@ -28,7 +28,36 @@ class CoreController extends Controller
      */
     public function rootAction()
     {
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_CONSULTANT'))
+        {
+            return $this->redirectToRoute('proj_root');
+        }
+
         return [];
+    }
+
+    /**
+     * Login checking action.
+     *
+     * @return  Response
+     *
+     * @Route("/auth", name="core_login")
+     */
+    public function loginAction()
+    {
+        return new Response();
+    }
+
+    /**
+     * Logout action.
+     *
+     * @return  Response
+     *
+     * @Route("/logout", name="core_logout")
+     */
+    public function logoutAction()
+    {
+        return new Response();
     }
 
     /**
@@ -42,14 +71,23 @@ class CoreController extends Controller
      */
     public function registerAction(Request $request)
     {
-        $form = $this->createForm('registration', new Consultant());
+        $newUser = new Consultant();
+        $form = $this->createForm('registration', $newUser);
 
         // Handle the form submission when applicable
         $form->handleRequest($request);
 
         if ($form->isValid())
         {
-            $this->addFlash('success', 'Registration form was valid!');
+            // Persist the new user
+            $this->get('obos.manager.user')->registerUser($newUser);
+
+            // Add confirmation flash
+            $this->addFlash('success', sprintf(
+                'Thanks for registering, %s! You can now log in using your email address and password.',
+                $newUser->getFirstName()
+            ));
+
             return $this->redirectToRoute('core_root');
         }
 

@@ -38,7 +38,11 @@
             {# User is logged in #}
             {% if app.user %}
                 <li><a href="#">{{ app.user.username }}</a></li>
-                <li><form action="{{ path('app_logout') }}"><button class="btn btn-warning navbar-btn" type="submit">Sign Out <i class="ion ion-log-out"></i></button></form></li>
+                <li>
+                    <form action="{{ path('core_logout') }}">
+                        <button class="btn btn-warning navbar-btn" type="submit">Sign Out <i class="ion ion-log-out"></i></button>
+                    </form>
+                </li>
             {# User is not logged in #}
             {% else %}
                 <li><a href="#">(Not signed in)</a></li>
