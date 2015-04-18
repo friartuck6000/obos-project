@@ -42,15 +42,7 @@ class CoreController extends Controller
      */
     public function registerAction(Request $request)
     {
-        $form = $this->createFormBuilder(new Consultant())
-            ->add('email', 'email', ['required' => TRUE])
-            ->add('password', 'password')
-            ->add('firstName', 'text')
-            ->add('lastName', 'text')
-            ->add('title', 'text', ['required' => FALSE])
-            ->add('industry', 'text', ['required' => FALSE])
-            ->add('submit', 'submit')
-            ->getForm();
+        $form = $this->createForm('registration', new Consultant());
 
         // Handle the form submission when applicable
         $form->handleRequest($request);
