@@ -1,0 +1,7 @@
+services:
+
+    # registration form
+    obos_core.form.type.registration:
+        class: 'Obos\Bundle\CoreBundle\Form\Type\RegistrationType'
+        tags:
+            - { name: 'form.type', alias: 'registration' }
