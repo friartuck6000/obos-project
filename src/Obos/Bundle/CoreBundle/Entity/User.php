@@ -3,6 +3,8 @@
 namespace Obos\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM,
+    Symfony\Component\Security\Core\User\UserInterface,
+    Serializable,
     DateTime;
 
 
@@ -19,7 +21,7 @@ use Doctrine\ORM\Mapping as ORM,
  *     "ROLE_CONSULTANT"    = "Consultant"
  * })
  */
-class User
+abstract class User implements UserInterface, Serializable
 {
     use Template\IdentifierTrait;
 
@@ -157,5 +159,62 @@ class User
     public function getLastLogin()
     {
         return $this->lastLogin;
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Get user's role; method must be implemented by subclass entities.
+     *
+     * @return  string[]
+     */
+    abstract public function getRoles();
+
+    /**
+     * Get the user's userame (email address).
+     * {@inheritdoc}
+     *
+     * @return  string
+     */
+    final public function getUsername()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Get password salt; returns NULL because the bcrypt encoder does not require it.
+     *
+     * @return  NULL
+     */
+    final public function getSalt()
+    {
+        return NULL;
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     */
+    final public function eraseCredentials()
+    {}
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    public function serialize()
+    {
+        return serialize([
+            $this->id,
+            $this->email,
+            $this->password
+        ]);
+    }
+
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->email,
+            $this->password
+            ) = unserialize($serialized);
     }
 }

@@ -198,4 +198,16 @@ class Consultant extends User
             return FALSE;
         });
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * List the roles that apply to this user entity.
+     *
+     * @return  string[]
+     */
+    public function getRoles()
+    {
+        return ['ROLE_CONSULTANT'];
+    }
 }
