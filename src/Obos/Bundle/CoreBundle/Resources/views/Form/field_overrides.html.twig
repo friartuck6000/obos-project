@@ -1,0 +1,52 @@
+{%- use 'bootstrap_3_layout.html.twig' -%}
+
+{#- Add support for ionicons icons on buttons #}
+{%- block button_widget -%}
+    {% set attr = attr|merge({class: (attr.class|default('btn-default') ~ ' btn')|trim}) %}
+    {%- if label is empty -%}
+        {%- if label_format is not empty -%}
+            {% set label = label_format|replace({
+            '%name%': name,
+            '%id%': id,
+            }) %}
+        {%- else -%}
+            {% set label = name|humanize %}
+        {%- endif -%}
+    {%- endif -%}
+    {%- set iconHtml = '' -%}
+    {%- if icon|default %}{% set iconHtml = ' <i class="icon ion '~ icon ~'"></i>' %}{% endif -%}
+    <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>
+        {{- label|trans({}, translation_domain) -}}
+        {{- iconHtml|raw -}}
+    </button>
+{%- endblock button_widget -%}
+
+{#- Add asterisk to requird fields automatically -#}
+{%- block form_label -%}
+    {%- set label_attr = label_attr|merge({class: (label_attr.class|default('') ~ ' control-label')|trim}) -%}
+    {% if label is not sameas(false) -%}
+        {% if not compound -%}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {%- endif %}
+        {% if required -%}
+            {% set label_attr = label_attr|merge({
+                'class': (label_attr.class|default('') ~ ' required')|trim,
+                'title': 'Field is required'
+            }) %}
+        {%- endif %}
+        {% if label is empty -%}
+            {%- if label_format is not empty -%}
+                {% set label = label_format|replace({
+                    '%name%': name,
+                    '%id%': id,
+                }) %}
+            {%- else -%}
+                {% set label = name|humanize %}
+            {%- endif -%}
+        {%- endif -%}
+        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>
+            {{- label|trans({}, translation_domain) -}}
+            {%- if required %}<span class="text-danger">*</span>{% endif -%}
+        </label>
+    {%- endif -%}
+{%- endblock form_label -%}
