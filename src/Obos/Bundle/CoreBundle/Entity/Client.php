@@ -21,7 +21,7 @@ class Client
     /**
      * @var  Consultant  The user who owns this entity.
      *
-     * @ORM\ManyToOne(targetEntity="Consultant", inversedBy="clients")
+     * @ORM\ManyToOne(targetEntity="Consultant")
      * @ORM\JoinColumn(name="consultantID", referencedColumnName="ID", onDelete="CASCADE")
      */
     protected $consultant;
