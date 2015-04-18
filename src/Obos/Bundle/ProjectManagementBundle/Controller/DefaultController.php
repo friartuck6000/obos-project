@@ -25,6 +25,10 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        return [];
+        $clients = $this->get('obos.manager.client')->getClients();
+
+        return [
+            'clients' => $clients
+        ];
     }
 }

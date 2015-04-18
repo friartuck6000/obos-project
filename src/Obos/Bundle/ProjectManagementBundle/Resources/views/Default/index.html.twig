@@ -1,3 +1,18 @@
 {%- extends 'ObosCoreBundle:Base:bootstrap.html.twig' -%}
 
 {% block pageTitle %}Projects{% endblock %}
+
+{% block bodyContent %}
+    <div class="row">
+        <div class="col-sm-6">
+            {% if clients|length == 0 -%}
+                <div class="alert alert-notice">
+                    Welcome to <b>OBOS</b>! Let's add your first client and get to work.
+                </div>
+                <div id="action-buttons">
+                    <a class="btn btn-warning" href="#">Add a Client <i class="icon ion ion-ios-plus-outline"></i></a>
+                </div>
+            {%- endif %}
+        </div>
+    </div>
+{% endblock %}

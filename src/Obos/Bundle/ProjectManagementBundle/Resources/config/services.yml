@@ -6,3 +6,5 @@ services:
         arguments:
             - '@doctrine'
             - 'Client'
+        calls:
+            - [setUser, ['@security.context']]
