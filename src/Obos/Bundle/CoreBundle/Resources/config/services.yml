@@ -1,5 +1,12 @@
 services:
 
+    # user manager
+    obos.manager.user:
+        class: 'Obos\Bundle\CoreBundle\Manager\UserManager'
+        arguments:
+            - '@doctrine'
+            - '@security.password_encoder'
+
     # registration form
     obos_core.form.type.registration:
         class: 'Obos\Bundle\CoreBundle\Form\Type\RegistrationType'
