@@ -8,49 +8,38 @@
 
             <div class="panel panel-default">
                 <div class="panel-body">
-
-                    <form id="login-form" method="post" action="#">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label for="login-email">Email Address</label>
-                                    <input id="login-email" name="_email" type="text" class="form-control"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label for="login-password">Password</label>
-                                    <input id="login-password" name="_password" type="password" class="form-control"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="name-first">First Name</label>
-                                    <input id="name-first" class="form-control" type="text"/>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="name-last">Last Name</label>
-                                    <input id="name-last" class="form-control" type="text"/>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <button type="submit" class="btn btn-success">
-                                Register Now
-                                <i class="icon ion ion-ios-plus-outline"></i>
-                            </button>
-                        </div>
-                    </form>
-
+                    {{ form_start(regForm) }}
+                    <div class="row">
+                        <div class="col-sm-12">{{ form_row(regForm.email) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">{{ form_row(regForm.password) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">{{ form_row(regForm.firstName) }}</div>
+                        <div class="col-sm-6">{{ form_row(regForm.lastName) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">{{ form_row(regForm.title) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">{{ form_row(regForm.industry) }}</div>
+                    </div>
+                    <div class="buttons">
+                        {% autoescape false %}
+                        {{ form_widget(regForm.submit, {
+                            'label': 'Register Now',
+                            'icon': 'ion-ios-checkmark-outline',
+                            'attr': {
+                                'class': 'btn-success'
+                            }
+                        })|raw }}
+                        {% endautoescape %}
+                    </div>
+                    {{ form_end(regForm) }}
                 </div>
             </div>
+
         </div>
     </div>
 {% endblock %}

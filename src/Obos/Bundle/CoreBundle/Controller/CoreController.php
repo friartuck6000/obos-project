@@ -4,7 +4,8 @@ namespace Obos\Bundle\CoreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller,
     Sensio\Bundle\FrameworkExtraBundle\Configuration\Route,
-    Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+    Sensio\Bundle\FrameworkExtraBundle\Configuration\Template,
+    Obos\Bundle\CoreBundle\Entity\Consultant;
 
 
 /**
@@ -34,6 +35,18 @@ class CoreController extends Controller
      */
     public function registerAction()
     {
-        return [];
+        $form = $this->createFormBuilder(new Consultant())
+            ->add('email', 'email', ['required' => TRUE])
+            ->add('password', 'password')
+            ->add('firstName', 'text')
+            ->add('lastName', 'text')
+            ->add('title', 'text', ['required' => FALSE])
+            ->add('industry', 'text', ['required' => FALSE])
+            ->add('submit', 'submit')
+            ->getForm();
+
+        return [
+            'regForm' => $form->createView()
+        ];
     }
 }
