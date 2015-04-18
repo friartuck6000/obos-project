@@ -2,45 +2,13 @@
 
 namespace Obos\Bundle\ProjectManagementBundle\Manager;
 
-class ClientManager
+use Doctrine\Common\Persistence\ManagerRegistry,
+    Doctrine\ORM\EntityManagerInterface,
+    Obos\Bundle\CoreBundle\Manager\AbstractPersistenceManager;
+
+
+class ClientManager extends AbstractPersistenceManager
 {
-    protected $clients;
-
-    public function __construct()
-    {
-        // For initial testing
-        $this->clients = [
-            [
-                'id' => 1,
-                'name' => 'Client 1'
-            ],
-            [
-                'id' => 2,
-                'name' => 'Client 2'
-            ],
-            [
-                'id' => 3,
-                'name' => 'Client 3'
-            ]
-        ];
-    }
-
-    public function getAllClients()
-    {
-        return $this->clients;
-    }
-
-    public function getClientById($id)
-    {
-        // Look for a test "client"
-        foreach ($this->clients as &$client)
-        {
-            if ($client['id'] == $id)
-            {
-                return $client;
-            }
-        }
-
-        return FALSE;
-    }
+    public function getClients()
+    {}
 }

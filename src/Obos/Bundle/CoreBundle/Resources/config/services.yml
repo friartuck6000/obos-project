@@ -5,6 +5,7 @@ services:
         class: 'Obos\Bundle\CoreBundle\Manager\UserManager'
         arguments:
             - '@doctrine'
+            - 'User'
             - '@security.password_encoder'
 
     # registration form

@@ -5,21 +5,14 @@ namespace Obos\Bundle\CoreBundle\Manager;
 
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface,
     Doctrine\Common\Persistence\ManagerRegistry,
-    Doctrine\ORM\EntityManagerInterface,
-    Obos\Bundle\CoreBundle\Entity\Consultant,
-    Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
+    Obos\Bundle\CoreBundle\Entity\Consultant;
 
 /**
  * Defines the persistence API for user management.
  *
  */
-class UserManager
+class UserManager extends AbstractPersistenceManager
 {
-    /**
-     * @var  EntityManagerInterface  The entity manager to use for persistence operations.
-     */
-    protected $entityManager;
-
     /**
      * @var  UserPasswordEncoderInterface  The password encoder service, for password operations.
      */
@@ -29,25 +22,19 @@ class UserManager
 
     /**
      * Constructor; set services and properties.
+     * {@inheritdoc}
      *
      * @param  ManagerRegistry               $managerRegistry
+     * @param  string                        $entityName
      * @param  UserPasswordEncoderInterface  $passwordEncoder
-     *
-     * @throws  InvalidConfigurationException  if a valid entity manager can't be found for the
-     *                                         user class.
      */
     public function __construct(
         ManagerRegistry $managerRegistry,
+        $entityName,
         UserPasswordEncoderInterface $passwordEncoder
     )
     {
-        // Load the correct entity manager; if one can't be loaded, throw an exception
-        $this->entityManager = $managerRegistry->getManagerForClass('ObosCoreBundle:Consultant');
-        if (!$this->entityManager)
-        {
-            throw new InvalidConfigurationException('There is no entity manager configured for the user '
-                .'entities of this system.');
-        }
+        parent::__construct($managerRegistry, $entityName);
 
         $this->passwordEncoder = $passwordEncoder;
     }
