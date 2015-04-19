@@ -3,7 +3,8 @@
 namespace Obos\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM,
-    DateTime;
+    DateTime,
+    DateInterval;
 
 /**
  * A pair of start/end timestamps denoting a work effort toward a project.
@@ -168,5 +169,21 @@ class Timestamp
     public function isBilled()
     {
         return ($this->invoice instanceof Invoice);
+    }
+
+    /**
+     * Get the length of the timestamp. Returns an empty interval if the timestamp is still
+     * open.
+     *
+     * @return  DateInterval
+     */
+    public function getLength()
+    {
+        if ($this->isOpen())
+        {
+            return new DateInterval('P0D');
+        }
+
+        return $this->startStamp->diff($this->stopStamp, TRUE);
     }
 }

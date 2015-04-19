@@ -3,7 +3,10 @@
 namespace Obos\Bundle\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM,
-    Doctrine\Common\Collections\ArrayCollection;
+    Doctrine\Common\Collections\ArrayCollection,
+    Obos\Bundle\CoreBundle\Entity\Timestamp,
+    DateTime,
+    DateInterval;
 
 
 /**
@@ -232,6 +235,25 @@ class Project extends Template\StatusedEntity
         }
 
         return NULL;
+    }
+
+    /**
+     * Get the amount of time logged on the project.
+     *
+     * @return  DateInterval
+     */
+    public function getLoggedTime()
+    {
+        $start = new DateTime();
+        $end = clone $start;
+
+        /** @var  Timestamp  $timestamp */
+        foreach ($this->timestamps as $timestamp)
+        {
+            $end = $end->add($timestamp->getLength());
+        }
+
+        return $start->diff($end, TRUE);
     }
 
     // -----------------------------------------------------------------------------------------------------------------
