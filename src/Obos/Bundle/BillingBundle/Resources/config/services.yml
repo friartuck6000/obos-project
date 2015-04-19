@@ -1,0 +1,10 @@
+services:
+
+    # billing persistence interface
+    obos.manager.billing:
+        class: Obos\Bundle\BillingBundle\Manager\BillingManager
+        arguments:
+            - '@doctrine'
+            - 'Project'
+        calls:
+            - [setUser, ['@security.context']]
