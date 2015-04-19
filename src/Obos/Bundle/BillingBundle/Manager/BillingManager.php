@@ -45,6 +45,11 @@ class BillingManager extends Manager\AbstractPersistenceManager
         return ($this->billableProjects = $projects);
     }
 
+    /**
+     * Calculate billable hours.
+     *
+     * @return  DateInterval
+     */
     public function getBillableHours()
     {
         // Get the billable project list
@@ -58,5 +63,7 @@ class BillingManager extends Manager\AbstractPersistenceManager
         {
             $end->add($project->getLoggedTime(TRUE));
         }
+
+        return $start->diff($end, TRUE);
     }
 }
