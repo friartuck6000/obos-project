@@ -97,4 +97,32 @@ class TimeclockManager extends Manager\AbstractPersistenceManager
         $this->entityManager->flush();
         $this->entityManager->clear();
     }
+
+    /**
+     * Delete an existing timestamp.
+     *
+     * @param  Timestamp  $timestamp
+     */
+    public function removeTimestamp(Timestamp $timestamp)
+    {
+        $this->entityManager->remove($timestamp);
+
+        $this->entityManager->flush();
+        $this->entityManager->clear();
+    }
+
+    /**
+     * Assign an existing timestamp to another project.
+     *
+     * @param  Timestamp  $timestamp
+     * @param  Project    $project
+     */
+    public function reassignTimestamp(Timestamp $timestamp, Project $project)
+    {
+        $timestamp->setProject($project);
+        $this->entityManager->persist($timestamp);
+
+        $this->entityManager->flush();
+        $this->entityManager->clear();
+    }
 }
