@@ -218,6 +218,21 @@ class Project extends Template\StatusedEntity
     }
 
     /**
+     * Filter the timestamp list to include only timestamps that have not yet been billed.
+     *
+     * @return  ArrayCollection
+     */
+    public function getBillableTimestamps()
+    {
+        $billable = $this->timestamps->filter(function(Timestamp $t)
+        {
+            return (!$t->getInvoice());
+        });
+
+        return $billable;
+    }
+
+    /**
      * Try to find an open timestamp and return it if one is found.
      *
      * The {@see $timestamps} collection is sorted by start time, newest to oldest.
@@ -240,17 +255,24 @@ class Project extends Template\StatusedEntity
     /**
      * Get the amount of time logged on the project.
      *
+     * @param   bool  $billableOnly  If TRUE, the function only calculates the total of unbilled time;
+     *                               otherwise, it will calculate the total for the life of the project.
      * @return  DateInterval
      */
-    public function getLoggedTime()
+    public function getLoggedTime($billableOnly = TRUE)
     {
         $start = new DateTime();
         $end = clone $start;
 
+        // Choose the source data set
+        $timestamps = ($billableOnly)
+            ? $this->getBillableTimestamps()
+            : $this->getAllTimestamps();
+
         /** @var  Timestamp  $timestamp */
-        foreach ($this->timestamps as $timestamp)
+        foreach ($timestamps as $timestamp)
         {
-            $end = $end->add($timestamp->getLength());
+            $end->add($timestamp->getLength());
         }
 
         return $start->diff($end, TRUE);
