@@ -1,0 +1,10 @@
+services:
+
+    # timekeeping manager
+    obos.manager.timeclock:
+        class: Obos\Bundle\TimekeepingBundle\Manager\TimeclockManager
+        arguments:
+            - '@doctrine'
+            - 'Timestamp'
+        calls:
+            - [setUser, ['@security.context']]
