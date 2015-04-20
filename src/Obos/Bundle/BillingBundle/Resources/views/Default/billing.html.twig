@@ -1,4 +1,24 @@
+{%- extends 'ObosCoreBundle:Base:bootstrap.html.twig' -%}
 
-{{ form_start(form) }}
-{{ form_widget(form) }}
-{{ form_end(form) }}
+{% block pageTitle %}Billing{% endblock %}
+
+{% block bodyContent %}
+    <div class="row">
+        <div class="col-sm-6">
+            
+                <div class="">
+                    Let's work on your client payment info!
+                </div>
+                <br>
+                <div id="action-buttons">
+                    <a class="btn btn-warning" href="http://localhost:8000/app_dev.php/billentry">Enter Client Payment Info <i class="icon ion ion-ios-plus-outline"></i></a>
+                    <a class="btn btn-warning" href="http://localhost:8000/app_dev.php/billentry">Billing Activity Report <i class="icon ion ion-ios-plus-outline"></i></a>
+                    <a class="btn btn-warning" href="http://localhost:8000/app_dev.php/billentry">Generate Statement <i class="icon ion ion-ios-plus-outline"></i></a>
+                    
+                    
+                </div>
+
+            
+        </div>
+    </div>
+{% endblock %}

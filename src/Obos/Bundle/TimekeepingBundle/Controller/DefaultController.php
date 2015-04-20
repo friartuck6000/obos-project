@@ -22,7 +22,18 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("tester")
+     * @Route("/tk/timemain", name="timemain")
+     * @Template()
+     */
+    public function timeMainAction(Request $request)
+    {
+        
+        return $this->render('ObosTimekeepingBundle:Default:timekeeping.html.twig');
+
+    }
+
+    /**
+     * @Route("/tester", name="tester")
      * @Template()
      */
     public function successAction()
@@ -32,7 +43,7 @@ class DefaultController extends Controller
 
 
     /**
-     * @Route("/tk/timeentry")
+     * @Route("/tk/timeentry", name="timeentry")
      * @Template()
      */
     public function clockInAction(Request $request)
@@ -53,11 +64,11 @@ class DefaultController extends Controller
         if ($form->isValid()) {
         // perform some action, such as saving the task to the database
 
-        return new Response(' Time entry form submitted!');
-        //return $this->redirectToRoute('tester');
+        //return new Response(' Time entry form submitted!');
+        return $this->redirectToRoute('timemain');
     }
 
-        return $this->render('ObosTimekeepingBundle:Default:timekeeping.html.twig', array(
+        return $this->render('ObosTimekeepingBundle:Default:timeentry.html.twig', array(
             'form' => $form->createView(),
            ));
 
@@ -74,10 +85,8 @@ class DefaultController extends Controller
 
         $form = $this->createFormBuilder($timestamp)
             ->add('workStart', 'text')
-            ->add('workStop', 'text')
             ->add('clientId', 'text')
             ->add('userId', 'text')
-            ->add('description','text')
             ->add('save', 'submit', array('label' => 'Delete Time Entry'))
             ->getForm();
 
@@ -86,11 +95,11 @@ class DefaultController extends Controller
         if ($form->isValid()) {
         // perform some action, such as saving the task to the database
 
-        return new Response('Delete entry form submitted!');
-        //return $this->redirectToRoute('tester');
+        //return new Response('Delete entry form submitted!');
+        return $this->redirectToRoute('timemain');
     }
 
-        return $this->render('ObosTimekeepingBundle:Default:timekeeping.html.twig', array(
+        return $this->render('ObosTimekeepingBundle:Default:timeentrydelete.html.twig', array(
             'form' => $form->createView(),
            ));
 
@@ -107,10 +116,8 @@ class DefaultController extends Controller
 
         $form = $this->createFormBuilder($timestamp)
             ->add('workStart', 'text')
-            ->add('workStop', 'text')
             ->add('clientId', 'text')
             ->add('userId', 'text')
-            ->add('description','text')
             ->add('save', 'submit', array('label' => 'Edit Time Entry'))
             ->getForm();
 
@@ -119,11 +126,11 @@ class DefaultController extends Controller
         if ($form->isValid()) {
         // perform some action, such as saving the task to the database
 
-        return new Response('Time entry edit form submitted!');
-        //return $this->redirectToRoute('tester');
+        //return new Response('Time entry edit form submitted!');
+        return $this->redirectToRoute('timemain');
     }
 
-        return $this->render('ObosTimekeepingBundle:Default:timekeeping.html.twig', array(
+        return $this->render('ObosTimekeepingBundle:Default:timeentryedit.html.twig', array(
             'form' => $form->createView(),
            ));
 
@@ -150,11 +157,11 @@ class DefaultController extends Controller
         if ($form->isValid()) {
         // perform some action, such as saving the task to the database
 
-        return new Response('Timekeeping report request submitted!');
-        //return $this->redirectToRoute('tester');
+        //return new Response('Timekeeping report request submitted!');
+        return $this->redirectToRoute('timemain');
     }
 
-        return $this->render('ObosTimekeepingBundle:Default:timekeeping.html.twig', array(
+        return $this->render('ObosTimekeepingBundle:Default:timekeepingreport.html.twig', array(
             'form' => $form->createView(),
            ));
 

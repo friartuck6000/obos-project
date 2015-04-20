@@ -1,4 +1,23 @@
+{%- extends 'ObosCoreBundle:Base:bootstrap.html.twig' -%}
 
-{{ form_start(form) }}
-{{ form_widget(form) }}
-{{ form_end(form) }}
+{% block pageTitle %}Timekeeping{% endblock %}
+
+{% block bodyContent %}
+    <div class="row">
+        <div class="col-sm-6">
+            
+                <div class="">
+                    Let's work on your timekeeping info!
+                </div>
+                <br>
+                <div id="action-buttons">
+                    <a class="btn btn-warning" href="http://localhost:8000/app_dev.php/tk/timeentry">Enter Time <i class="icon ion ion-ios-plus-outline"></i></a>
+                    <a class="btn btn-warning" href="http://localhost:8000/app_dev.php/tk/timeedit">Edit Time Entry <i class="icon ion ion-ios-plus-outline"></i></a>
+                     <a class="btn btn-warning" href="http://localhost:8000/app_dev.php/tk/timedelete">Delete Time Entry <i class="icon ion ion-ios-plus-outline"></i></a>
+                      <a class="btn btn-warning" href="http://localhost:8000/app_dev.php/tk/timereport">Work Hours Report <i class="icon ion ion-ios-plus-outline"></i></a>
+                </div>
+
+            
+        </div>
+    </div>
+{% endblock %}
