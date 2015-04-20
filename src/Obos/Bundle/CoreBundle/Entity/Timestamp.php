@@ -69,6 +69,17 @@ class Timestamp
     }
 
     /**
+     * @param   Invoice  $invoice
+     * @return  $this
+     */
+    public function setInvoice($invoice)
+    {
+        $this->invoice = $invoice;
+
+        return $this;
+    }
+
+    /**
      * @param   DateTime  $startStamp
      * @return  $this
      */
