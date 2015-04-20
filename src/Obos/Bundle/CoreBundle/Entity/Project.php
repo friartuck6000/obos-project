@@ -56,6 +56,13 @@ class Project extends Template\StatusedEntity
     protected $shortTitle;
 
     /**
+     * @var  string  The hourly billing rate for the project.
+     *
+     * @ORM\Column(type="decimal", precision=10, scale=2)
+     */
+    protected $hourlyRate = '0.00';
+
+    /**
      * @var  bool  Flag specifying whether time logged to this project should be auto-billed
      *             to the client.
      *
@@ -153,6 +160,17 @@ class Project extends Template\StatusedEntity
     }
 
     /**
+     * @param   string $hourlyRate
+     * @return  $this
+     */
+    public function setHourlyRate($hourlyRate)
+    {
+        $this->hourlyRate = $hourlyRate;
+
+        return $this;
+    }
+
+    /**
      * @param   boolean  $autoBilled
      * @return  $this
      */
@@ -195,6 +213,14 @@ class Project extends Template\StatusedEntity
     public function getShortTitle()
     {
         return ($this->shortTitle) ? $this->shortTitle : $this->title;
+    }
+
+    /**
+     * @return  string
+     */
+    public function getHourlyRate()
+    {
+        return $this->hourlyRate;
     }
 
     /**
