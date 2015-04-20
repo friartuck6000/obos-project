@@ -45,7 +45,6 @@ class TimeclockManager extends Manager\AbstractPersistenceManager
 
         // Run a database transaction to save changes
         $this->entityManager->flush();
-        $this->entityManager->clear();
     }
 
     /**
@@ -76,7 +75,6 @@ class TimeclockManager extends Manager\AbstractPersistenceManager
 
         // Run a database transaction to save changes
         $this->entityManager->flush();
-        $this->entityManager->clear();
     }
 
     /**
@@ -95,7 +93,6 @@ class TimeclockManager extends Manager\AbstractPersistenceManager
         $this->entityManager->persist($timestamp);
 
         $this->entityManager->flush();
-        $this->entityManager->clear();
     }
 
     /**
@@ -108,7 +105,6 @@ class TimeclockManager extends Manager\AbstractPersistenceManager
         $this->entityManager->remove($timestamp);
 
         $this->entityManager->flush();
-        $this->entityManager->clear();
     }
 
     /**
@@ -123,6 +119,8 @@ class TimeclockManager extends Manager\AbstractPersistenceManager
         $this->entityManager->persist($timestamp);
 
         $this->entityManager->flush();
-        $this->entityManager->clear();
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
 }
