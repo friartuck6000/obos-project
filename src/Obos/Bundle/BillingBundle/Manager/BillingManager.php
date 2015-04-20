@@ -4,6 +4,8 @@ namespace Obos\Bundle\BillingBundle\Manager;
 
 use Obos\Bundle\CoreBundle\Manager,
     Obos\Bundle\CoreBundle\Entity\Project,
+    Obos\Bundle\CoreBundle\Entity\Invoice,
+    Obos\Bundle\CoreBundle\Entity\Timestamp,
     DateTime,
     DateInterval;
 
@@ -65,5 +67,43 @@ class BillingManager extends Manager\AbstractPersistenceManager
         }
 
         return $start->diff($end, TRUE);
+    }
+
+    public function createInvoice(Project $project)
+    {
+        $invoice = new Invoice();
+
+        // Set the due date to 30 days from now
+        $dateDue = new DateTime();
+        $dateDue->add(new DateInterval('P30D'));
+
+        // Calculate the amount to bill.
+        $billableHours = $project->getLoggedTime(TRUE);
+        $zero = new DateTime();
+        $seconds = $zero->add($billableHours)->getTimestamp();
+        $amountToBill = ($seconds / 3600 * $project->getHourlyRate());
+
+        // Build the invoice data
+        $invoice->setProject($project)
+            ->setDateDue($dateDue)
+            ->setAmountBilled($amountToBill)
+            ->setAmountDue($amountToBill)
+            ->update();
+
+        // Persist the new invoice
+        $this->entityManager->persist($invoice);
+
+        // Claim all of the timestamps we just billed for.
+        /** @var  Timestamp  $timestamp */
+        foreach ($project->getBillableTimestamps() as $timestamp)
+        {
+            $timestamp->setInvoice($invoice);
+            $this->entityManager->persist($timestamp);
+        }
+
+        // Run a transaction to save all changes
+        $this->entityManager->flush();
+
+        return $invoice;
     }
 }
