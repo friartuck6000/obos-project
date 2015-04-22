@@ -64,7 +64,7 @@
     {# Show flash messages #}
     {% for label, flashList in app.session.flashbag.all -%}
     {%- for message in flashList if message %}
-    <div class="alert alert-{{ label }}">{{ message }}</div>
+    <div class="alert alert-{{ label }}">{{ message|raw }}</div>
     {% endfor -%}
     {%- endfor %}
 
