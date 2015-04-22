@@ -2,6 +2,7 @@
 
 namespace Obos\Bundle\CoreBundle\Manager;
 
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface,
     Obos\Bundle\CoreBundle\Entity\Consultant,
     Obos\Bundle\CoreBundle\Exception\InvalidArgumentException;
@@ -24,5 +25,16 @@ trait UserDependentTrait
         {
             throw new InvalidArgumentException('User must be a valid Consultant.');
         }
+    }
+
+    /**
+     * Check whether the user ID passed in from a form matches the current user.
+     *
+     * @param   FormInterface  $idField
+     * @return  bool
+     */
+    public function userMatches(FormInterface $idField)
+    {
+        return ($idField->getData() == $this->user->getId());
     }
 }

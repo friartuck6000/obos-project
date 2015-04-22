@@ -1,0 +1,42 @@
+{%- extends 'ObosCoreBundle:Base:bootstrap.html.twig' -%}
+
+{% block pageTitle %}New Client{% endblock %}
+
+{% block bodyContent %}
+    <div class="row">
+        <div class="col-lg-5 col-sm-6">
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                {{ form_start(form) }}
+
+                    <h3>General Information</h3>
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.shortName) }}
+                    {{ form_row(form.website) }}
+
+                    <h3>Corporate Address</h3>
+                    {{ form_row(form.address1) }}
+                    {{ form_row(form.address2) }}
+
+                    <div class="row">
+                        <div class="col-sm-7">{{ form_row(form.city) }}</div>
+                        <div class="col-sm-2">{{ form_row(form.state) }}</div>
+                        <div class="col-sm-3">{{ form_row(form.zip) }}</div>
+                    </div>
+
+                    <div class="buttons">
+                        {{ form_widget(form.submit, {
+                            'label': 'Save New Client',
+                            'icon': 'ion-ios-checkmark-outline',
+                            'attr': {
+                                'class': 'btn-success'
+                            }
+                        }) }}
+                    </div>
+                {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
