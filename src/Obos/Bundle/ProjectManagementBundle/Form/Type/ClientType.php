@@ -24,10 +24,13 @@ class ClientType extends UserAwareType
         // Add fields
         $builder
             ->add('consultantID', 'hidden', [
-                'mapped' => FALSE,
-                'data'   => $options['consultantID']
+                'mapped' => false,
+                'data'   => $options['consultantID'],
             ])
-            ->add('id', 'hidden')
+            ->add('new', 'hidden', [
+                'mapped' => false,
+                'data'   => 1
+            ])
             ->add('name', 'text')
             ->add('shortName', 'text', ['required' => false])
             ->add('website', 'url', ['required' => false])

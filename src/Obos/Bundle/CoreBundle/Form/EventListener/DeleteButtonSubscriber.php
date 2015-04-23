@@ -46,7 +46,11 @@ class DeleteButtonSubscriber implements EventSubscriberInterface
         // Check the entity state; if it can be determined that it's not a new entity,
         // add the Delete button
         if ($entity && $idReflector->getValue($entity)) {
-            $form->add('delete', 'submit');
+            $form->add('delete', 'submit')
+                ->add('new', 'hidden', [
+                    'mapped' => false,
+                    'data' => 0
+                ]);
         }
     }
 }

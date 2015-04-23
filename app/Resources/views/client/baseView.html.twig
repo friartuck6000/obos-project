@@ -24,7 +24,7 @@
                     </div>
 
                     <div class="buttons">
-                    {% if form.id.vars.data %}
+                    {% if form.new.vars.data == 0 %}
                         {{ form_widget(form.submit, {
                             'label': 'Save Changes',
                             'icon': 'ion-ios-checkmark-outline',
