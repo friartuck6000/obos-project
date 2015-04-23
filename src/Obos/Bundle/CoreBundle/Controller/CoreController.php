@@ -21,10 +21,9 @@ class CoreController extends Controller
      * App root. If the user is authorized, she is redirected to the project listing view; otherwise,
      * the default view prompts her to log in or register.
      *
-     * @return  Response|mixed[]
+     * @return  Response
      *
      * @Route("/", name="core_root")
-     * @Template()
      */
     public function rootAction()
     {
@@ -33,7 +32,7 @@ class CoreController extends Controller
             return $this->redirectToRoute('projects.root');
         }
 
-        return [];
+        return $this->render('core/root.html.twig');
     }
 
     /**
@@ -64,7 +63,7 @@ class CoreController extends Controller
      * Registration page.
      *
      * @param   Request  $request  The request.
-     * @return  Response|mixed[]
+     * @return  Response
      *
      * @Route("/register", name="core_register")
      * @Template()
@@ -91,8 +90,8 @@ class CoreController extends Controller
             return $this->redirectToRoute('core_root');
         }
 
-        return [
+        return $this->render('core/register.html.twig', [
             'regForm' => $form->createView()
-        ];
+        ]);
     }
 }

@@ -23,10 +23,9 @@ class ProjectController extends Controller
      * Projects root.
      *
      * @param   Request  $request
-     * @return  Response|array
+     * @return  Response
      *
      * @Route("/", name="projects.root")
-     * @Template()
      */
     public function indexAction(Request $request)
     {
@@ -76,11 +75,11 @@ class ProjectController extends Controller
             }
         }
 
-        return [
+        return $this->render('project/index.html.twig', [
             'actionForm' => $actionForm->createView(),
             'clients' => $clientListBuilder->getQuery()->getResult(),
             'projects' => []
-        ];
+        ]);
     }
 
     /**
@@ -88,14 +87,13 @@ class ProjectController extends Controller
      *
      * @param   Request  $request
      * @param   Client   $client
-     * @return  Response|array
+     * @return  Response
      *
      * @Route("/new/{client}", name="projects.add")
-     * @Template()
      * @ParamConverter("client", class="ObosCoreBundle:Client", options={"id" = "client"})
      */
     public function createProjectAction(Request $request, Client $client)
     {
-        return new Response(Debug::dump($client, 4, true, false));
+        return new Response();
     }
 }

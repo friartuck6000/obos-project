@@ -1,6 +1,4 @@
-{%- extends 'ObosCoreBundle:Base:bootstrap.html.twig' -%}
-
-{% block pageTitle %}New Client{% endblock %}
+{%- extends '_template/bootstrap.html.twig' -%}
 
 {% block bodyContent %}
     <div class="row">
@@ -8,7 +6,7 @@
 
             <div class="panel panel-default">
                 <div class="panel-body">
-                {{ form_start(form) }}
+                    {{ form_start(form) }}
 
                     <h3>General Information</h3>
                     {{ form_row(form.name) }}
@@ -26,6 +24,22 @@
                     </div>
 
                     <div class="buttons">
+                    {% if form.id.vars.data %}
+                        {{ form_widget(form.submit, {
+                            'label': 'Save Changes',
+                            'icon': 'ion-ios-checkmark-outline',
+                            'attr': {
+                                'class': 'btn-success'
+                            }
+                        }) }}
+                        {{ form_widget(form.delete, {
+                            'label': 'Delete',
+                            'icon': 'ion-ios-trash-outline',
+                            'attr': {
+                                'class': 'btn-danger'
+                            }
+                        }) }}
+                    {% else %}
                         {{ form_widget(form.submit, {
                             'label': 'Save New Client',
                             'icon': 'ion-ios-checkmark-outline',
@@ -33,8 +47,9 @@
                                 'class': 'btn-success'
                             }
                         }) }}
+                    {% endif %}
                     </div>
-                {{ form_end(form) }}
+                    {{ form_end(form) }}
                 </div>
             </div>
         </div>

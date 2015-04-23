@@ -37,10 +37,9 @@ class ClientController extends Controller
      * Add a new client.
      *
      * @param   Request  $request
-     * @return  Response|array
+     * @return  Response
      *
      * @Route("/new", name="clients.add")
-     * @Template()
      */
     public function addClientAction(Request $request)
     {
@@ -81,8 +80,8 @@ class ClientController extends Controller
             }
         }
 
-        return [
+        return $this->render('client/addClient.html.twig', [
             'form' => $form->createView()
-        ];
+        ]);
     }
 }
