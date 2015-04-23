@@ -5808,3 +5808,10 @@ body {
 .alert-notice .alert-link {
   color: #245269;
 }
+.btn > .icon,
+button > .icon,
+input[type="submit"] > .icon,
+input[type="button"] > .icon,
+input[type="reset"] > .icon {
+  margin-left: 6px;
+}
