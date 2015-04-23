@@ -3,7 +3,8 @@
 namespace Obos\Bundle\ProjectManagementBundle\Manager;
 
 use Obos\Bundle\CoreBundle\Entity\Client;
-use Obos\Bundle\CoreBundle\Manager;
+use Obos\Bundle\CoreBundle\Manager\AbstractPersistenceManager;
+use Obos\Bundle\CoreBundle\Manager\UserDependentTrait;
 use Symfony\Component\Form\Form;
 
 
@@ -11,9 +12,9 @@ use Symfony\Component\Form\Form;
  * The persistence manager for Clients.
  *
  */
-class ClientManager extends Manager\AbstractPersistenceManager
+class ClientManager extends AbstractPersistenceManager
 {
-    use Manager\UserDependentTrait;
+    use UserDependentTrait;
 
     // -----------------------------------------------------------------------------------------------------------------
 
