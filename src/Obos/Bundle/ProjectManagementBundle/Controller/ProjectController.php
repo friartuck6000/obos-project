@@ -43,14 +43,12 @@ class ProjectController extends Controller
             ->add('client', 'entity', [
                 'class' => 'ObosCoreBundle:Client',
                 'query_builder' => $clientListBuilder,
-                'property' => 'name',
+                'property' => 'shortName',
             ])
             ->add('createClient', 'submit')
             ->add('editClient', 'submit')
             ->add('createProject', 'submit')
             ->getForm();
-
-        // $clients = $this->get('obos.manager.client')->getClients();
 
         // Handle routing for action buttons
         $actionForm->handleRequest($request);
