@@ -3,10 +3,10 @@
 namespace Obos\Bundle\CoreBundle\Manager;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface,
-    Doctrine\Common\Persistence\ManagerRegistry,
-    Doctrine\ORM\EntityManagerInterface,
-    Obos\Bundle\CoreBundle\Exception\InvalidConfigurationException;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
+use Obos\Bundle\CoreBundle\Exception\InvalidConfigurationException;
 
 
 /**
@@ -21,9 +21,9 @@ abstract class AbstractPersistenceManager
     protected $entityManager;
 
     /**
-     * @var  Request  A request object.
+     * @var  RequestStack  A request object.
      */
-    protected $request;
+    protected $requestStack;
 
     // -----------------------------------------------------------------------------------------------------------------
 
@@ -36,12 +36,12 @@ abstract class AbstractPersistenceManager
      *  2. Leave the constructor as is and use method calls to set additional
      *     dependency references.
      *
-     * @param  Request          $request
+     * @param  RequestStack     $requestStack
      * @param  ManagerRegistry  $managerRegistry
      * @param  string           $entityName
      */
     public function __construct(
-        Request $request,
+        RequestStack $requestStack,
         ManagerRegistry $managerRegistry,
         $entityName
     )
@@ -58,10 +58,20 @@ abstract class AbstractPersistenceManager
         }
 
         // Set the request reference
-        $this->request = $request;
+        $this->requestStack = $requestStack;
     }
 
     // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Get the current request.
+     *
+     * @return  null|Request
+     */
+    public function getRequest()
+    {
+        return $this->requestStack->getCurrentRequest();
+    }
 
     /**
      * Adds a flash message to the current session for type.
@@ -71,13 +81,15 @@ abstract class AbstractPersistenceManager
      *
      * @throws \LogicException
      */
-    protected function addFlash($type, $message)
+    public function addFlash($type, $message)
     {
-        if (!$this->request->hasSession()) {
+        if (!$this->getRequest()->hasSession()) {
             throw new \LogicException('You can not use the addFlash method if sessions are disabled.');
         }
 
-        $this->request->getSession()->getFlashBag()->add($type, $message);
+        $this->getRequest()->getSession()
+            ->getFlashBag()
+                ->add($type, $message);
     }
 
 }
