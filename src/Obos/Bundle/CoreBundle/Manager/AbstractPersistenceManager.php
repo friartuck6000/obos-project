@@ -63,4 +63,21 @@ abstract class AbstractPersistenceManager
 
     // -----------------------------------------------------------------------------------------------------------------
 
+    /**
+     * Adds a flash message to the current session for type.
+     *
+     * @param string $type    The type
+     * @param string $message The message
+     *
+     * @throws \LogicException
+     */
+    protected function addFlash($type, $message)
+    {
+        if (!$this->request->hasSession()) {
+            throw new \LogicException('You can not use the addFlash method if sessions are disabled.');
+        }
+
+        $this->request->getSession()->getFlashBag()->add($type, $message);
+    }
+
 }
