@@ -1,4 +1,62 @@
 {%- extends '_template/bootstrap.html.twig' -%}
 
 {% block bodyContent %}
+    <div class="row">
+        <div class="col-lg-5 col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {{ form_start(form) }}
+
+                    <h3>Name &amp; Association</h3>
+                    <div class="row">
+                        <div class="col-md-9">{{ form_row(form.client) }}</div>
+                    </div>
+                    {{ form_row(form.title) }}
+                    {{ form_row(form.shortTitle) }}
+
+                    <h3>Due Date &amp; Billing</h3>
+                    {{ form_row(form.dateDue) }}
+                    <div class="row">
+                        <div class="col-md-4">{{ form_row(form.hourlyRate) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">{{ form_row(form.autoBilled, {
+                                'label_attr': {'class': 'checkbox-inline'}
+                            }) }}</div>
+                    </div>
+
+                    <hr/>
+
+                    <div class="buttons">
+                        {% if form.new.vars.data == 0 %}
+                            {{ form_widget(form.submit, {
+                                'label': 'Save Changes',
+                                'icon': 'ion-ios-checkmark-outline',
+                                'attr': {
+                                    'class': 'btn-success'
+                                }
+                            }) }}
+                            {{ form_widget(form.delete, {
+                                'label': 'Delete',
+                                'icon': 'ion-ios-trash-outline',
+                                'attr': {
+                                    'class': 'btn-danger'
+                                }
+                            }) }}
+                        {% else %}
+                            {{ form_widget(form.submit, {
+                                'label': 'Save New Project',
+                                'icon': 'ion-ios-checkmark-outline',
+                                'attr': {
+                                    'class': 'btn-success'
+                                }
+                            }) }}
+                        {% endif %}
+                    </div>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

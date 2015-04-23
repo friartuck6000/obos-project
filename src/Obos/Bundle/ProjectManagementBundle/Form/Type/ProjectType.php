@@ -42,7 +42,7 @@ class ProjectType extends UserAwareType
                 'date_widget' => 'choice',
             ])
             ->add('hourlyRate', 'money', ['currency' => 'USD'])
-            ->add('autoBilled', 'checkbox');
+            ->add('autoBilled', 'checkbox', ['required' => false]);
 
         // Add submit button
         $builder
