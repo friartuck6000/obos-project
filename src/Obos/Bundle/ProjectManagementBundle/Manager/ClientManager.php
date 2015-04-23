@@ -4,6 +4,7 @@ namespace Obos\Bundle\ProjectManagementBundle\Manager;
 
 use Obos\Bundle\CoreBundle\Entity\Client;
 use Obos\Bundle\CoreBundle\Manager;
+use Symfony\Component\Form\Form;
 
 
 /**
@@ -35,20 +36,82 @@ class ClientManager extends Manager\AbstractPersistenceManager
 
     // -----------------------------------------------------------------------------------------------------------------
 
-    public function getClients()
+    /**
+     * Save the client (whether new or existing) to the database.
+     *
+     * @param   Client  $client
+     * @param   Form    $form
+     * @return  bool
+     */
+    public function saveClient(Client $client, Form $form)
     {
-        $clients = $this->entityManager->getRepository('ObosCoreBundle:Client')
-            ->findBy(['consultant' => $this->user]);
+        // Set a flag indicating whether the entity is new
+        $new = !($client->getId() > 0 && $this->entityManager->contains($client));
 
-        return $clients;
+        // Validate the user association
+        if (!$this->userMatches($form->get('consultantID'))) {
+
+            // If the association isn't valid, add an error message
+            $this->addFlash('danger', sprintf(
+                'The client <b>%s</b> could not be saved because there was an error '
+                .'linking it to your account; please try again.',
+                $client->getName()
+            ));
+
+            return false;
+        }
+
+        // If the entity is new, link the user
+        if ($new) {
+            $client->setConsultant($this->user);
+        }
+
+        // Save the user
+        try {
+            $this->entityManager->persist($client);
+            $this->entityManager->flush();
+        } catch (\Exception $e) {
+            // Add error message if the database transaction failed
+            $this->addFlash('danger', sprintf(
+                'The client <b>%s</b> could not be saved because of a database error.',
+                $client->getName()
+            ));
+
+            return false;
+        }
+
+        // Add confirmation message
+        $this->addFlash('success', sprintf(
+            'The client <b>%s</b> was successfully saved.',
+            $client->getName()
+        ));
+
+        return true;
     }
 
-    public function addClient(Client $client)
+    public function deleteClient(Client $client)
     {
-        // Set the user association
-        $client->setConsultant($this->user);
+        if ($this->entityManager->contains($client)) {
+            try {
+                $this->entityManager->remove($client);
+                $this->entityManager->flush();
+            } catch (\Exception $e) {
+                // Add error message if the database transaction failed
+                $this->addFlash('danger', sprintf(
+                    'The client <b>%s</b> could not be removed because of a database error.',
+                    $client->getName()
+                ));
 
-        $this->entityManager->persist($client);
-        $this->entityManager->flush();
+                return false;
+            }
+        }
+
+        // Add confirmation message
+        $this->addFlash('success', sprintf(
+            'The client <b>%s</b> was successfully deleted.',
+            $client->getName()
+        ));
+
+        return true;
     }
 }

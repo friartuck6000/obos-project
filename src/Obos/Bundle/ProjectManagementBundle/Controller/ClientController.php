@@ -54,33 +54,57 @@ class ClientController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
 
-            // Make sure the current user matches the one attached to
-            // the form submission
-            if ($manager->userMatches($form->get('consultantID'))) {
-
-                // Save the new client
-                $manager->addClient($client);
-
-                // Add a confirmation flash message
-                $this->addFlash('success', sprintf(
-                    'The client <b>%s</b> was added successfully.',
-                    $client->getName()
-                ));
-
+            // Attempt to save the client; redirect if successful.
+            if ($manager->saveClient($client, $form)) {
                 return $this->redirectToRoute('projects.root');
-
-            } else {
-
-                // Add a failure message
-                $this->addFlash('danger', sprintf(
-                    'The client <b>%s</b> could not be added because there was an error '
-                        .'linking it to your account; please try again.',
-                    $client->getName()
-                ));
             }
         }
 
         return $this->render('client/addClient.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * Edit or remove a client.
+     *
+     * @param   Request  $request
+     * @param   Client   $client
+     * @return  Response
+     *
+     * @Route("/{client}/edit", name="clients.edit")
+     * @ParamConverter("client", class="ObosCoreBundle:Client", options={"id" = "client"})
+     */
+    public function editClientAction(Request $request, Client $client)
+    {
+        // Get the persistence manager
+        $manager = $this->get('obos.manager.client');
+
+        // Build the form around the existing client
+        $form = $this->createForm('client', $client);
+
+        // Check for a form submission
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+
+            // Check the clicked button to determine whether to save or delete
+            $action = $form->getClickedButton();
+            if ($action) {
+                if (($action->getName()) == 'delete') {
+                    // Delete the client; redirect if successful.
+                    if ($manager->deleteClient($client)) {
+                        return $this->redirectToRoute('projects.root');
+                    }
+                } else {
+                    // Attempt to save the client; redirect if successful.
+                    if ($manager->saveClient($client, $form)) {
+                        return $this->redirectToRoute('projects.root');
+                    }
+                }
+            }
+        }
+
+        return $this->render('client/editClient.html.twig', [
             'form' => $form->createView()
         ]);
     }
