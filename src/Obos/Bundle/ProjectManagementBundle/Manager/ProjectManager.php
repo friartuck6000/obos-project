@@ -29,6 +29,9 @@ class ProjectManager extends AbstractPersistenceManager
             ->select('p')
             ->from('ObosCoreBundle:Project', 'p')
             ->where('p.consultant = ?1')
+            ->orderBy('p.dateDue', 'ASC')
+            ->addOrderBy('p.dateModified', 'DESC')
+            ->addOrderBy('p.title', 'ASC')
             ->setParameter(1, $this->user);
 
         return $builder;
