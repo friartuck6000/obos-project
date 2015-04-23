@@ -2,16 +2,13 @@
 
 namespace Obos\Bundle\ProjectManagementBundle\Controller;
 
-use Doctrine\Common\Util\Debug;
 use Obos\Bundle\CoreBundle\Entity\Client;
 use Obos\Bundle\CoreBundle\Entity\Project;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Controller for project management.
@@ -101,6 +98,16 @@ class ProjectController extends Controller
         $project = new Project();
         $project->setClient($client);
         $form = $this->createForm('project', $project);
+
+        // Process form submission if there is one
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+
+            // Attempt to save the project and redirect if successful
+            if ($manager->saveProject($project, $form)) {
+                return $this->redirectToRoute('projects.root');
+            }
+        }
 
         return $this->render('project/addProject.html.twig', [
             'form' => $form->createView()
