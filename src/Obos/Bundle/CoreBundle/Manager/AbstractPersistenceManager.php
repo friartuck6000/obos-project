@@ -2,6 +2,7 @@
 
 namespace Obos\Bundle\CoreBundle\Manager;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface,
     Doctrine\Common\Persistence\ManagerRegistry,
     Doctrine\ORM\EntityManagerInterface,
@@ -20,6 +21,13 @@ abstract class AbstractPersistenceManager
     protected $entityManager;
 
     /**
+     * @var  Request  A request object.
+     */
+    protected $request;
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
      * Build the service. Subclasses using additional dependencies must either:
      *
      *  1. Override this constructor, being sure to call parent::__construct() with the
@@ -28,10 +36,12 @@ abstract class AbstractPersistenceManager
      *  2. Leave the constructor as is and use method calls to set additional
      *     dependency references.
      *
+     * @param  Request          $request
      * @param  ManagerRegistry  $managerRegistry
      * @param  string           $entityName
      */
     public function __construct(
+        Request $request,
         ManagerRegistry $managerRegistry,
         $entityName
     )
@@ -46,5 +56,11 @@ abstract class AbstractPersistenceManager
                 $entityName
             ));
         }
+
+        // Set the request reference
+        $this->request = $request;
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
 }

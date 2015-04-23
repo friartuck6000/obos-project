@@ -3,11 +3,13 @@
 namespace Obos\Bundle\ProjectManagementBundle\Manager;
 
 use Obos\Bundle\CoreBundle\Entity\Client;
-use Obos\Bundle\CoreBundle\Manager,
-    Obos\Bundle\CoreBundle\Exception\InvalidArgumentException;
-use Symfony\Component\Form\FormInterface;
+use Obos\Bundle\CoreBundle\Manager;
 
 
+/**
+ * The persistence manager for Clients.
+ *
+ */
 class ClientManager extends Manager\AbstractPersistenceManager
 {
     use Manager\UserDependentTrait;

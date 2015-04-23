@@ -4,6 +4,7 @@ services:
     obos.manager.user:
         class: 'Obos\Bundle\CoreBundle\Manager\UserManager'
         arguments:
+            - '@request'
             - '@doctrine'
             - 'User'
             - '@security.password_encoder'

@@ -4,6 +4,7 @@ services:
     obos.manager.client:
         class: Obos\Bundle\ProjectManagementBundle\Manager\ClientManager
         arguments:
+            - '@request'
             - '@doctrine'
             - 'Client'
         calls:

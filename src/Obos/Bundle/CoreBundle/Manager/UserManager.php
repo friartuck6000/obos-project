@@ -3,6 +3,7 @@
 namespace Obos\Bundle\CoreBundle\Manager;
 
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface,
     Doctrine\Common\Persistence\ManagerRegistry,
     Obos\Bundle\CoreBundle\Entity\Consultant;
@@ -29,12 +30,13 @@ class UserManager extends AbstractPersistenceManager
      * @param  UserPasswordEncoderInterface  $passwordEncoder
      */
     public function __construct(
+        Request $request,
         ManagerRegistry $managerRegistry,
         $entityName,
         UserPasswordEncoderInterface $passwordEncoder
     )
     {
-        parent::__construct($managerRegistry, $entityName);
+        parent::__construct($request, $managerRegistry, $entityName);
 
         $this->passwordEncoder = $passwordEncoder;
     }
