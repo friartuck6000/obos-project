@@ -8,7 +8,17 @@ services:
             - '@doctrine'
             - 'Client'
         calls:
-            - [setUser, ['@security.context']]
+            - [setUser, ['@security.token_storage']]
+
+    # project manager
+    obos.manager.project:
+        class: Obos\Bundle\ProjectManagementBundle\Manager\ProjectManager
+        arguments:
+            - '@request_stack'
+            - '@doctrine'
+            - 'Project'
+        calls:
+            - [setUser, ['@security.token_storage']]
 
     # client form
     obos.form.type.client:

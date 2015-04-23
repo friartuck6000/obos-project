@@ -9,7 +9,7 @@
             {# action toolbar #}
             <div id="action-toolbar">
 
-            {%- if clients|length > 0 -%}
+            {% if clients|length > 0 %}
 
                 {{ form_start(actionForm, {
                     'attr': {'class': 'form-inline'}
@@ -45,13 +45,23 @@
                 }) }}
                 {{ form_end(actionForm) }}
 
-            {%- else -%}
+            {% else %}
 
                 <p>Welcome to OBOS! Let's <a href="#">add your first client</a> and get to work.</p>
 
-            {%- endif -%}
+            {% endif %}
             </div>
             <hr/>
+
+            <div id="project-listing">
+            {% if projects|length > 0 %}
+                {# do stuff #}
+            {% else %}
+
+                <p>You don't have any projects yet.</p>
+
+            {% endif %}
+            </div>
         </div>
 
     </div>

@@ -31,10 +31,11 @@ class ProjectController extends Controller
     {
         // Get manager instances
         $clientManager = $this->get('obos.manager.client');
+        $projectManager = $this->get('obos.manager.project');
 
         // Generate the query builder for loading clients and projects
         $clientListBuilder = $clientManager->getClientListBuilder();
-        $projectListBuilder = null;
+        $projectListBuilder = $projectManager->getProjectListBuilder();
 
         // Build the project manager toolbar form
         $actionForm = $this->createFormBuilder([])
@@ -77,8 +78,8 @@ class ProjectController extends Controller
 
         return $this->render('project/index.html.twig', [
             'actionForm' => $actionForm->createView(),
-            'clients' => $clientListBuilder->getQuery()->getResult(),
-            'projects' => []
+            'clients'    => $clientListBuilder->getQuery()->getResult(),
+            'projects'   => $projectListBuilder->getQuery()->getResult(),
         ]);
     }
 
