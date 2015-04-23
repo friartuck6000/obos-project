@@ -92,10 +92,7 @@ class ProjectController extends Controller
      *
      * @Route("/new/{client}", name="projects.add")
      * @Template()
-     *
-     * @ParamConverter("client", class="ObosCoreBundle:Client", options={
-     *     "id" = "client"
-     * })
+     * @ParamConverter("client", class="ObosCoreBundle:Client", options={"id" = "client"})
      */
     public function createProjectAction(Request $request, Client $client)
     {
