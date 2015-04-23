@@ -2,7 +2,10 @@
 
 namespace Obos\Bundle\ProjectManagementBundle\Controller;
 
+use Obos\Bundle\CoreBundle\Entity\Client;
+use Obos\Bundle\ProjectManagementBundle\Form\Type\ClientType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,5 +29,60 @@ class ClientController extends Controller
     public function indexAction()
     {
         return $this->redirectToRoute('projects.root');
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Add a new client.
+     *
+     * @param   Request  $request
+     * @return  Response|array
+     *
+     * @Route("/new", name="clients.add")
+     * @Template()
+     */
+    public function addClientAction(Request $request)
+    {
+        // Get the persistence manager
+        $manager = $this->get('obos.manager.client');
+
+        // Initialize the entity and build the form
+        $client = new Client();
+        $form = $this->createForm('client', $client);
+
+        // Look for and process a valid form submission
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+
+            // Make sure the current user matches the one attached to
+            // the form submission
+            if ($manager->userMatches($form->get('consultantID'))) {
+
+                // Save the new client
+                $manager->addClient($client);
+
+                // Add a confirmation flash message
+                $this->addFlash('success', sprintf(
+                    'The client <b>%s</b> was added successfully.',
+                    $client->getName()
+                ));
+
+                return $this->redirectToRoute('projects.root');
+
+            } else {
+
+                // Add a failure message
+                $this->addFlash('danger', sprintf(
+                    'The client <b>%s</b> could not be added because there was an error '
+                        .'linking it to your account; please try again.',
+                    $client->getName()
+                ));
+            }
+        }
+
+        return [
+            'form' => $form->createView()
+        ];
     }
 }
