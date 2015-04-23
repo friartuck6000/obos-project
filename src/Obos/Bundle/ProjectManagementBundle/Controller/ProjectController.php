@@ -2,29 +2,30 @@
 
 namespace Obos\Bundle\ProjectManagementBundle\Controller;
 
+use Doctrine\Common\Util\Debug;
 use Obos\Bundle\CoreBundle\Entity\Client;
-use Obos\Bundle\ProjectManagementBundle\Form\Type\ClientType;
-use Obos\Bundle\CoreBundle\Exception\InvalidConfigurationException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
- * The frontmost controller for this component.
+ * Controller for project management.
  *
  * @Route("/projects")
  */
-class DefaultController extends Controller
+class ProjectController extends Controller
 {
     /**
-     * The base page for the project management component.
+     * Projects root.
      *
      * @param   Request  $request
-     * @return  Response|mixed[]
+     * @return  Response|array
      *
-     * @Route("/", name="proj_root")
+     * @Route("/", name="projects.root")
      * @Template()
      */
     public function indexAction(Request $request)
@@ -57,20 +58,20 @@ class DefaultController extends Controller
             $newRoute = null;
             switch ($selectedAction->getName()) {
                 case 'createClient':
-                    $newRoute = 'proj.client_add';
+                    $newRoute = 'clients.add';
                     break;
                 case 'editClient':
-                    $newRoute = 'proj.client_edit';
+                    $newRoute = 'clients.edit';
                     break;
                 case 'createProject':
-                    $newRoute = 'proj.project_add';
+                    $newRoute = 'projects.add';
                     break;
             }
 
             if ($newRoute) {
                 $this->get('logger')->notice(gettype($actionForm->get('client')->getData()->getName()));
                 return $this->redirectToRoute($newRoute, [
-                    'client' => $actionForm->get('client')->getData(),
+                    'client' => $actionForm->get('client')->getData()->getId(),
                 ]);
             }
         }
@@ -83,53 +84,21 @@ class DefaultController extends Controller
     }
 
     /**
-     * Create a new client.
+     * Project creator.
      *
      * @param   Request  $request
-     * @return  Response|mixed[]
+     * @param   Client   $client
+     * @return  Response|array
      *
-     * @Route("/client/new", name="proj.client_add")
+     * @Route("/new/{client}", name="projects.add")
      * @Template()
+     *
+     * @ParamConverter("client", class="ObosCoreBundle:Client", options={
+     *     "id" = "client"
+     * })
      */
-    public function addClientAction(Request $request)
+    public function createProjectAction(Request $request, Client $client)
     {
-        $client = new Client();
-        $form = $this->createForm(new ClientType($this->getUser()), $client);
-
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-
-            // Get the persistence manager
-            $manager = $this->get('obos.manager.client');
-
-            // Make sure the user association is correct before continuing with
-            // the save.
-            if ($manager->userMatches($form->get('consultantID'))) {
-
-                // Save the new client
-                $manager->addClient($client);
-
-                // Notify the user and redirect to the projects root.
-                $this->addFlash('success', sprintf(
-                    'Client <b>%s</b> added successfully.',
-                    $client->getName()
-                ));
-
-                return $this->redirectToRoute('proj_root');
-            } else {
-
-                // If the user association couldn't be validated, notify the user.
-                $this->addFlash(
-                    'danger',
-                    'The client couldn\'t be saved because there was an error linking it to '
-                        .'your account. Please try again.'
-                );
-            }
-        }
-
-        return [
-            'form' => $form->createView(),
-        ];
+        return new Response(Debug::dump($client, 4, true, false));
     }
 }

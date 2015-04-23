@@ -30,7 +30,7 @@ class CoreController extends Controller
     {
         if ($this->get('security.authorization_checker')->isGranted('ROLE_CONSULTANT'))
         {
-            return $this->redirectToRoute('proj_root');
+            return $this->redirectToRoute('projects.root');
         }
 
         return [];
