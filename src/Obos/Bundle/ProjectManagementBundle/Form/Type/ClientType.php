@@ -27,6 +27,7 @@ class ClientType extends UserAwareType
                 'mapped' => FALSE,
                 'data'   => $options['consultantID']
             ])
+            ->add('id', 'hidden')
             ->add('name', 'text')
             ->add('shortName', 'text', ['required' => false])
             ->add('website', 'url', ['required' => false])
