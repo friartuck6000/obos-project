@@ -2,6 +2,7 @@
 
 namespace Obos\Bundle\ProjectManagementBundle\Form\Type;
 
+use Obos\Bundle\CoreBundle\Form\EventListener\DeleteButtonSubscriber;
 use Obos\Bundle\CoreBundle\Form\Type\UserAwareType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -38,6 +39,8 @@ class ClientType extends UserAwareType
         // Add submit button
         $builder
             ->add('submit', 'submit');
+
+        $builder->addEventSubscriber(new DeleteButtonSubscriber());
     }
 
     /**
