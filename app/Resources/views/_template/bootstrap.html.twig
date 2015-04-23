@@ -65,11 +65,15 @@
     </section>
 
     {# Show flash messages #}
-    {% for label, flashList in app.session.flashbag.all -%}
-    {%- for message in flashList if message %}
-    <div class="alert alert-{{ label }}">{{ message|raw }}</div>
-    {% endfor -%}
-    {%- endfor %}
+    <div class="row">
+        <div class="col-md-9">
+        {% for label, flashList in app.session.flashbag.all -%}
+        {%- for message in flashList if message %}
+            <div class="alert alert-{{ label }}">{{ message|raw }}</div>
+        {% endfor -%}
+        {%- endfor %}
+        </div>
+    </div>
 
     {# Body block #}
     {% block bodyContent %}{% endblock %}
