@@ -4,6 +4,7 @@ namespace Obos\Bundle\ProjectManagementBundle\Controller;
 
 use Doctrine\Common\Util\Debug;
 use Obos\Bundle\CoreBundle\Entity\Client;
+use Obos\Bundle\CoreBundle\Entity\Project;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -95,6 +96,13 @@ class ProjectController extends Controller
      */
     public function createProjectAction(Request $request, Client $client)
     {
-        return new Response();
+        // Get the persistence manager
+        $manager = $this->get('obos.manager.project');
+
+        // Initialize the entity and build the form
+        $project = new Project();
+        $form = null;
+
+        return $this->render('project/addProject.html.twig');
     }
 }
