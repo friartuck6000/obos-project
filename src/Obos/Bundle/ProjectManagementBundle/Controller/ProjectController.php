@@ -99,8 +99,11 @@ class ProjectController extends Controller
 
         // Initialize the entity and build the form
         $project = new Project();
-        $form = null;
+        $project->setClient($client);
+        $form = $this->createForm('project', $project);
 
-        return $this->render('project/addProject.html.twig');
+        return $this->render('project/addProject.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 }

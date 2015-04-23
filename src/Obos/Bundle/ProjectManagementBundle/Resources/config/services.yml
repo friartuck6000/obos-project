@@ -27,3 +27,11 @@ services:
             - '@security.token_storage'
         tags:
             - { name: 'form.type', alias: 'client' }
+
+    # project form
+    obos.form.type.project:
+        class: Obos\Bundle\ProjectManagementBundle\Form\Type\ProjectType
+        arguments:
+            - '@security.token_storage'
+        tags:
+            - { name: 'form.type', alias: 'project' }

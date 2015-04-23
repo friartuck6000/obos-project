@@ -9,9 +9,9 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 
 /**
- * Builder for the client form.
+ * Builder for the project form.
  */
-class ClientType extends UserAwareType
+class ProjectType extends UserAwareType
 {
     /**
      * {@inheritdoc}
@@ -31,20 +31,24 @@ class ClientType extends UserAwareType
                 'mapped' => false,
                 'data'   => 1
             ])
-            ->add('name', 'text')
-            ->add('shortName', 'text', ['required' => false])
-            ->add('website', 'url', ['required' => false])
-            ->add('address1', 'text')
-            ->add('address2', 'text', ['required' => false])
-            ->add('city', 'text')
-            ->add('state', 'text')
-            ->add('zip', 'text');
+            ->add('client', 'entity', [
+                'class' => 'ObosCoreBundle:Client',
+                'property' => 'name',
+            ])
+            ->add('title', 'text')
+            ->add('shortTitle', 'text', ['required' => false])
+            ->add('dateDue', 'datetime', [
+                'date_format' => 'MM-dd-yyyy',
+                'date_widget' => 'choice',
+            ])
+            ->add('hourlyRate', 'money', ['currency' => 'USD'])
+            ->add('autoBilled', 'checkbox');
 
         // Add submit button
         $builder
             ->add('submit', 'submit');
 
-        // Register event subscriber to add delete button for existing clients
+        // Register event subscriber to add delete button for existing projects
         $builder->addEventSubscriber(new DeleteButtonSubscriber());
     }
 
@@ -55,7 +59,7 @@ class ClientType extends UserAwareType
      */
     public function getName()
     {
-        return 'client';
+        return 'project';
     }
 
     /**
