@@ -55,7 +55,15 @@
 
             <div id="project-listing">
             {% if projects|length > 0 %}
-                {# do stuff #}
+
+            {% for project in projects %}
+
+                <div class="project-summary panel panel-default">
+                    <div class="panel-body">
+                        <h4>{{ project.title }} <small>{{ project.shortTitle }}</small></h4>
+                    </div>
+                </div>
+            {% endfor %}
             {% else %}
 
                 <p>You don't have any projects yet.</p>
