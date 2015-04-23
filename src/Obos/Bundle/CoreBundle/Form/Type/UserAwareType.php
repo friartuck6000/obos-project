@@ -4,6 +4,7 @@ namespace Obos\Bundle\CoreBundle\Form\Type;
 
 use Obos\Bundle\CoreBundle\Entity\Consultant;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 
 /**
@@ -17,8 +18,8 @@ abstract class UserAwareType extends AbstractType
      */
     protected $user;
 
-    public function __construct(Consultant $user)
+    public function __construct(TokenStorageInterface $tokenStorage)
     {
-        $this->user = $user;
+        $this->user = $tokenStorage->getToken()->getUser();
     }
 }

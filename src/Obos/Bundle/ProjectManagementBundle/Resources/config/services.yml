@@ -8,3 +8,11 @@ services:
             - 'Client'
         calls:
             - [setUser, ['@security.context']]
+
+    # client form
+    obos.form.type.client:
+        class: Obos\Bundle\ProjectManagementBundle\Form\Type\ClientType
+        arguments:
+            - '@security.token_storage'
+        tags:
+            - { name: 'form.type', alias: 'client' }
