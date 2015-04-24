@@ -6,6 +6,40 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                     {{ form_start(form) }}
+                    <div class="row">
+                        <div class="col-sm-9">{{ form_row(form.invoice) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">{{ form_row(form.datePaid) }}</div>
+                        <div class="col-md-4">{{ form_row(form.amountPaid) }}</div>
+                    </div>
+                    <hr/>
+                    <div class="buttons">
+                        {% if form.new.vars.data == 0 %}
+                            {{ form_widget(form.submit, {
+                                'label': 'Save Changes',
+                                'icon': 'ion-ios-checkmark-outline',
+                                'attr': {
+                                    'class': 'btn-success'
+                                }
+                            }) }}
+                            {{ form_widget(form.delete, {
+                                'label': 'Delete',
+                                'icon': 'ion-ios-trash-outline',
+                                'attr': {
+                                    'class': 'btn-danger'
+                                }
+                            }) }}
+                        {% else %}
+                            {{ form_widget(form.submit, {
+                                'label': 'Save Payment',
+                                'icon': 'ion-ios-checkmark-outline',
+                                'attr': {
+                                    'class': 'btn-success'
+                                }
+                            }) }}
+                        {% endif %}
+                    </div>
                     {{ form_end(form) }}
                 </div>
             </div>
