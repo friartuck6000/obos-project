@@ -4,6 +4,7 @@ namespace Obos\Bundle\ProjectManagementBundle\Form\Type;
 
 use Obos\Bundle\CoreBundle\Form\EventListener\DeleteButtonSubscriber;
 use Obos\Bundle\CoreBundle\Form\Type\UserAwareType;
+use Obos\Bundle\ProjectManagementBundle\Manager\ClientManager;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -13,6 +14,28 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 class ProjectType extends UserAwareType
 {
+    /**
+     * @var  ClientManager  The Client persistence manager.
+     */
+    protected $clientManager;
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Set the ClientManager reference.
+     *
+     * @param   ClientManager  $manager
+     * @return  $this
+     */
+    public function setClientManager(ClientManager $manager)
+    {
+        $this->clientManager = $manager;
+
+        return $this;
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
     /**
      * {@inheritdoc}
      *
@@ -32,8 +55,9 @@ class ProjectType extends UserAwareType
                 'data'   => 1
             ])
             ->add('client', 'entity', [
-                'class' => 'ObosCoreBundle:Client',
-                'property' => 'name',
+                'class'         => 'ObosCoreBundle:Client',
+                'query_builder' => $this->clientManager->getClientListBuilder(),
+                'property'      => 'name',
             ])
             ->add('title', 'text')
             ->add('shortTitle', 'text', ['required' => false])

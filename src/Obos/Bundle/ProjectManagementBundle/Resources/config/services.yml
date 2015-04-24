@@ -33,5 +33,7 @@ services:
         class: Obos\Bundle\ProjectManagementBundle\Form\Type\ProjectType
         arguments:
             - '@security.token_storage'
+        calls:
+            - [setClientManager, ['@obos.manager.client']]
         tags:
             - { name: 'form.type', alias: 'project' }
