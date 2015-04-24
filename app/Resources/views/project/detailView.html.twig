@@ -120,7 +120,7 @@
                             {% endif %}
                         </p>
                     {% else %}
-                        <p class="text-warning">No tasks to show.</p>
+                        <p class="text-warning">No outstanding tasks to show.</p>
                     {% endfor %}
                     {% for task in project.allTasks if task.complete %}
                         <p class="small">

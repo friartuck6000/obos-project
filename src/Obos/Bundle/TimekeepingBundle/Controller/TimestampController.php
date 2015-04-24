@@ -16,6 +16,23 @@ use Symfony\Component\HttpFoundation\Response;
 class TimestampController extends Controller
 {
     /**
+     * @return  Response
+     *
+     * @Route("/", name="timeclock.root")
+     */
+    public function indexAction()
+    {
+        $manager = $this->get('obos.manager.timestamp');
+        $timestamps = $manager->getAllUserTimestamps();
+        $openTimestamp = $manager->getOpenTimestamp();
+
+        return $this->render('timeclock/index.html.twig', [
+            'timestamps' => $timestamps,
+            'openTimestamp' => $openTimestamp
+        ]);
+    }
+
+    /**
      * @param   Request  $request
      * @param   Project  $project
      * @return  Response

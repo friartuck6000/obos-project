@@ -2,6 +2,7 @@
 
 namespace Obos\Bundle\TimekeepingBundle\Manager;
 
+use Doctrine\ORM\Query\Expr\Join;
 use Obos\Bundle\CoreBundle\Entity\Project;
 use Obos\Bundle\CoreBundle\Entity\Timestamp;
 use Obos\Bundle\CoreBundle\Exception\InvalidArgumentException;
@@ -35,6 +36,25 @@ class TimestampManager extends AbstractPersistenceManager
         }
 
         return $openTimestamp;
+    }
+
+    /**
+     * Load all the timestamps that belong to the current user.
+     *
+     * @return Timestamp[]
+     */
+    public function getAllUserTimestamps()
+    {
+        $builder = $this->entityManager->createQueryBuilder();
+        $builder->select(['ts'])
+            ->from('ObosCoreBundle:Timestamp', 'ts')
+            ->join('ts.project', 'p')
+            ->where('p.consultant = ?1')
+            ->orderBy('ts.startStamp', 'DESC')
+            ->addOrderBy('ts.stopStamp', 'DESC')
+            ->setParameter(1, $this->user);
+
+        return $builder->getQuery()->getResult();
     }
 
     // -----------------------------------------------------------------------------------------------------------------

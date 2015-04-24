@@ -155,6 +155,7 @@ class ProjectManager extends AbstractPersistenceManager
     public function completeProject(Project $project)
     {
         $project->setStatus(Project::STATUS_COMPLETE);
+        $project->update();
         if (($openTimestamp = $project->getOpenTimestamp())) {
             $openTimestamp->close();
         }

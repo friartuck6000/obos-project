@@ -1,0 +1,63 @@
+{%- extends '_template/bootstrap.html.twig' -%}
+
+{% block pageTitle%}Your Timestamps{% endblock %}
+
+{% block bodyContent %}
+    <div class="row">
+        <div class="col-sm-12 col-md-11 col-lg-10">
+            <div id="action-toolbar">
+                <p>
+                    {# manual timestamp #}
+                    <a class="btn btn-success" href="#">
+                        Add a Timestamp Manually
+                        <i class="icon ion ion-ios-compose-outline"></i>
+                    </a>
+
+                    {# punch-out #}
+                    {% if openTimestamp %}
+                        <a class="btn btn-danger" href="{{
+                        path('timeclock.out')
+                        }}" title="Punched in on project: {{ openTimestamp.project.title }}">
+                            Punch Out
+                            <i class="icon ion ion-ios-download-outline"></i>
+                        </a>
+                    {% endif %}
+                </p>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Start</th>
+                            <th>Stop</th>
+                            <th>Project</th>
+                            <th>Billed</th>
+                            <th>Description</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for timestamp in timestamps %}
+                            <tr class="{{ timestamp.open ? 'warning'}}">
+                                <td>{{ timestamp.startStamp|date('y/m/d (g:ia)') }}</td>
+                                <td>{{ timestamp.stopStamp
+                                    ? timestamp.stopStamp|date('y/m/d (g:ia)')
+                                    : '(open)' }}</td>
+                                <td>{{ timestamp.project.title }}</td>
+                                <td>{{ timestamp.billed ? 'Yes' : 'No' }}</td>
+                                <td>{{ timestamp.description }}</td>
+                                <td class="text-right">
+                                    <a class="btn btn-xs btn-default" href=""><i class="ion ion-ios-list-outline"></i></a>
+                                    <a class="btn btn-xs btn-danger" href=""><i class="ion ion-ios-trash-outline"></i></a>
+                                </td>
+                            </tr>
+                        {% else %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
