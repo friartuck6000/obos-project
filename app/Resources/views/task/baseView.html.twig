@@ -6,6 +6,40 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                 {{ form_start(form) }}
+                    <div class="row">
+                        <div class="col-sm-7">{{ form_row(form.project) }}</div>
+                        <div class="col-sm-5">{{ form_row(form.category) }}</div>
+                    </div>
+                    {{ form_row(form.name) }}
+                    {{ form_row(form.description) }}
+                    {{ form_row(form.dateDue) }}
+                    <hr/>
+                    <div class="buttons">
+                        {% if form.new.vars.data == 0 %}
+                            {{ form_widget(form.submit, {
+                                'label': 'Save Changes',
+                                'icon': 'ion-ios-checkmark-outline',
+                                'attr': {
+                                    'class': 'btn-success'
+                                }
+                            }) }}
+                            {{ form_widget(form.delete, {
+                                'label': 'Delete',
+                                'icon': 'ion-ios-trash-outline',
+                                'attr': {
+                                    'class': 'btn-danger'
+                                }
+                            }) }}
+                        {% else %}
+                            {{ form_widget(form.submit, {
+                                'label': 'Save New Task',
+                                'icon': 'ion-ios-checkmark-outline',
+                                'attr': {
+                                    'class': 'btn-success'
+                                }
+                            }) }}
+                        {% endif %}
+                    </div>
                 {{ form_end(form) }}
                 </div>
             </div>
