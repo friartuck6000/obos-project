@@ -83,9 +83,9 @@ class Timestamp
      * @param   DateTime  $startStamp
      * @return  $this
      */
-    public function setStartStamp($startStamp)
+    public function setStartStamp($startStamp = null)
     {
-        $this->startStamp = $startStamp;
+        $this->startStamp = $startStamp ? $startStamp : new DateTime();
 
         return $this;
     }
@@ -94,9 +94,9 @@ class Timestamp
      * @param   DateTime  $stopStamp
      * @return  $this
      */
-    public function setStopStamp($stopStamp)
+    public function setStopStamp($stopStamp = null)
     {
-        $this->stopStamp = $stopStamp;
+        $this->stopStamp = $stopStamp ? $stopStamp : new DateTime();
 
         return $this;
     }
@@ -169,6 +169,20 @@ class Timestamp
         }
 
         return FALSE;
+    }
+
+    /**
+     * Semantic method for closing the timestamp.
+     *
+     * @return  $this
+     */
+    public function close()
+    {
+        if ($this->isOpen()) {
+            $this->setStopStamp();
+        }
+
+        return $this;
     }
 
     /**
