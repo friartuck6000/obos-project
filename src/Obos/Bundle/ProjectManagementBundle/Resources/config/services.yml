@@ -37,3 +37,13 @@ services:
             - [setClientManager, ['@obos.manager.client']]
         tags:
             - { name: 'form.type', alias: 'project' }
+
+    # task form
+    obos.form.type.task:
+        class: Obos\Bundle\ProjectManagementBundle\Form\Type\TaskType
+        arguments:
+            - '@security.token_storage'
+        calls:
+            - [setProjectManager, ['@obos.manager.project']]
+        tags:
+            - { name: 'form.type', alias: 'task' }

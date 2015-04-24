@@ -68,7 +68,7 @@ class ProjectTask extends Template\StatusedEntity
      *
      * @return  string[]
      */
-    public function getCategoryOptions()
+    public static function getCategoryOptions()
     {
         return [
             self::CATEGORY_COMPONENT,
