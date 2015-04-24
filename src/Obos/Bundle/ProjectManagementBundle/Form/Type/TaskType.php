@@ -76,7 +76,7 @@ class TaskType extends UserAwareType
      */
     public function getName()
     {
-        return 'project';
+        return 'task';
     }
 
     /**
