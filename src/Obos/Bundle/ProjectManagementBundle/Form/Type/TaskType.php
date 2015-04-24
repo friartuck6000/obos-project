@@ -58,6 +58,10 @@ class TaskType extends UserAwareType
             ])
             ->add('name', 'text')
             ->add('description', 'textarea', ['required' => false])
+            ->add('dateDue', 'datetime', [
+                'date_format' => 'MM-dd-yyyy',
+                'date_widget' => 'choice',
+            ])
             ->add('category', 'choice', [
                 'choices' => ProjectTask::getCategoryOptions()
             ]);
