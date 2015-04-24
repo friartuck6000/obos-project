@@ -8,7 +8,9 @@
             <div id="action-toolbar">
                 <p>
                     {# manual timestamp #}
-                    <a class="btn btn-success" href="#">
+                    <a class="btn btn-success" href="{{
+                        path('timeclock.new_stamp')
+                    }}">
                         Add a Timestamp Manually
                         <i class="icon ion ion-ios-compose-outline"></i>
                     </a>

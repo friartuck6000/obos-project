@@ -4,6 +4,7 @@ namespace Obos\Bundle\TimekeepingBundle\Form\Type;
 
 use Obos\Bundle\CoreBundle\Form\EventListener\DeleteButtonSubscriber;
 use Obos\Bundle\CoreBundle\Form\Type\UserAwareType;
+use Obos\Bundle\ProjectManagementBundle\Manager\ProjectManager;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -53,7 +54,7 @@ class TimestampType extends UserAwareType
             ->add('project', 'entity', [
                 'class'         => 'ObosCoreBundle:Project',
                 'query_builder' => $this->projectManager->getProjectListBuilder(),
-                'property'      => 'name',
+                'property'      => 'title',
             ])
             ->add('startStamp', 'datetime', [
                 'date_format' => 'MM-dd-yyyy',

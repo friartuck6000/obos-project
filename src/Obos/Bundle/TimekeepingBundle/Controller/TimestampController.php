@@ -3,6 +3,7 @@
 namespace Obos\Bundle\TimekeepingBundle\Controller;
 
 use Obos\Bundle\CoreBundle\Entity\Project;
+use Obos\Bundle\CoreBundle\Entity\Timestamp;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -68,5 +69,26 @@ class TimestampController extends Controller
         } else {
             return $this->redirectToRoute('projects.root');
         }
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * @param   Request  $request
+     * @return  Response
+     *
+     * @Route("/new", name="timeclock.new_stamp")
+     */
+    public function createTimestampAction(Request $request)
+    {
+        // Get timestamp manager
+        $manager = $this->get('obos.manager.timestamp');
+
+        $timestamp = new Timestamp();
+        $form = $this->createForm('timestamp', $timestamp);
+
+        return $this->render('timeclock/addTimestamp.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 }
