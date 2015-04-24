@@ -57,12 +57,11 @@
 
             {% for project in projects %}
 
-                <div class="project-summary panel {{
-                project.isOverdue()
-                    ? 'panel-danger'
-                    : 'panel-default'
-                }}">
+                <div class="project-summary panel {{ project.overdue ? 'panel-danger' : 'panel-default' }}">
                     <div class="panel-body">
+                        {% if project.overdue %}
+                            <span class="pull-right text-danger"><b>overdue</b></span>
+                        {% endif %}
                         <h4>
                             <a href="{{ path('projects.single_view', {'project': project.id}) }}">{{ project.title }}</a><br>
                             <small>{{ project.client.name }}</small>
