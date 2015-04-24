@@ -1,1 +1,25 @@
 services:
+
+    # invoice manager
+    obos.manager.invoice:
+        class: Obos\Bundle\BillingBundle\Manager\InvoiceManager
+        arguments:
+            - '@request_stack'
+            - '@doctrine'
+            - 'Invoice'
+        calls:
+            - [setUser, ['@security.token_storage']]
+
+    # payment manager
+
+    # invoice form
+    obos.form.type.invoice:
+        class: Obos\Bundle\BillingBundle\Form\Type\InvoiceType
+        arguments:
+            - '@security.token_storage'
+        calls:
+            - [setProjectManager, ['@obos.manager.project']]
+        tags:
+            - { name: 'form.type', alias: 'invoice' }
+
+    # payment form
