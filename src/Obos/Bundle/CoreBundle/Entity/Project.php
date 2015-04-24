@@ -216,11 +216,12 @@ class Project extends Template\StatusedEntity
     }
 
     /**
+     * @param   int  $round
      * @return  string
      */
-    public function getHourlyRate()
+    public function getHourlyRate($round = 2)
     {
-        return $this->hourlyRate;
+        return number_format($this->hourlyRate, $round);
     }
 
     /**

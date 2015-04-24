@@ -169,18 +169,26 @@ class ProjectController extends Controller
     /**
      * View project details.
      *
-     * @param   Request  $request
      * @param   Project  $project
      * @return  Response
      *
      * @Route("/{project}/details", name="projects.single_view")
      * @ParamConverter("project", class="ObosCoreBundle:Project", options={"id" = "project"})
      */
-    public function viewProjectAction(Request $request, Project $project)
+    public function viewProjectAction(Project $project)
     {
         return $this->render('project/detailView.html.twig', [
             'project'       => $project,
             'openTimestamp' => $this->getOpenTimestamp()
         ]);
     }
+
+    /**
+     * @param   Project  $project
+     * @return  Response
+     *
+     * @Route("/{project}/complete", name="projects.complete")
+     */
+    public function completeProjectAction(Project $project)
+    {}
 }

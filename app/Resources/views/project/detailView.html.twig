@@ -5,6 +5,13 @@
 {% block bodyContent %}
     <div id="action-toolbar">
         <p>
+            {# complete project #}
+            <a class="btn btn-success" href="{{
+            path('projects.complete', {'project': project.id})
+            }}">Complete Project
+                <i class="icon ion ion-ios-checkmark-outline"></i>
+            </a>
+
             {# edit project #}
             <a class="btn btn-info" href="{{ path('projects.edit', {'project': project.id}) }}">
                 Edit Project
