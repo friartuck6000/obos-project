@@ -113,4 +113,34 @@ class ProjectController extends Controller
             'form' => $form->createView()
         ]);
     }
+
+    /**
+     * Edit (or remove) a project.
+     *
+     * @param   Request  $request
+     * @param   Project  $project
+     * @return  Response
+     *
+     * @Route("/{project}/edit", name="projects.edit")
+     * @ParamConverter("project", class="ObosCoreBundle:Project", options={"id" = "project"})
+     */
+    public function editProjectAction(Request $request, Project $project)
+    {
+        // ...
+    }
+
+    /**
+     * View project details.
+     *
+     * @param   Request  $request
+     * @param   Project  $project
+     * @return  Response
+     *
+     * @Route("/{project}/details", name="projects.single_view")
+     * @ParamConverter("project", class="ObosCoreBundle:Project", options={"id" = "project"})
+     */
+    public function viewProjectAction(Request $request, Project $project)
+    {
+        return new Response();
+    }
 }

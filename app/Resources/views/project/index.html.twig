@@ -58,9 +58,34 @@
 
             {% for project in projects %}
 
-                <div class="project-summary panel panel-default">
+                <div class="project-summary panel {{
+                project.isOverdue()
+                    ? 'panel-danger'
+                    : 'panel-default'
+                }}">
                     <div class="panel-body">
-                        <h4>{{ project.title }} <small>{{ project.shortTitle }}</small></h4>
+                        <h4>
+                            <a href="{{ path('projects.single_view', {'project': project.id}) }}">{{ project.title }}</a><br>
+                            <small>{{ project.client.name }}</small>
+                        </h4>
+                        <hr/>
+                        <div class="row">
+                            <div class="project-info-field col-sm-4">
+                                <i class="text-muted icon ion ion-ios-calendar-outline"></i>
+                                {{ project.dateDue|date('n/j/y g:ia') }}
+                            </div>
+                            <div class="project-info-field col-sm-4">
+                                <i class="text-muted icon ion ion-ios-paper-outline"></i>
+                                ${{- project.hourlyRate|number_format(2) -}}/hr
+                                <span class="text-muted">{{ project.autoBilled ? '(auto-billed)' }}</span>
+                            </div>
+                            <div class="project-info-field col-sm-4 text-right">
+                                <a href="{{ path('projects.edit', {'project': project.id}) }}" class="btn btn-xs btn-info">
+                                    Edit
+                                    <i class="icon ion ion-ios-list-outline"></i>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             {% endfor %}
