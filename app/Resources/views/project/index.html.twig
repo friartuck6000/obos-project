@@ -55,7 +55,7 @@
             <div id="project-listing">
             {% if projects|length > 0 %}
 
-            {% for project in projects %}
+            {% for project in projects if not project.complete %}
 
                 <div class="project-summary panel {{ project.overdue ? 'panel-danger' : 'panel-default' }}">
                     <div class="panel-body">
