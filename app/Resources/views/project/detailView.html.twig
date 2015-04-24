@@ -6,13 +6,13 @@
     <div id="action-toolbar">
         <p>
             {# edit project #}
-            <a class="btn btn-info" href="{{ path('projects.edit', {'project': project.id})}}">
+            <a class="btn btn-info" href="{{ path('projects.edit', {'project': project.id}) }}">
                 Edit Project
                 <i class="icon ion ion-ios-list-outline"></i>
             </a>
 
             {# add task #}
-            <a class="btn btn-sm btn-success" href="#">
+            <a class="btn btn-sm btn-success" href="{{ path('tasks.add', {'project': project.id}) }}">
                 New <b>Task</b>
                 <i class="icon ion ion-ios-compose-outline"></i>
             </a>
