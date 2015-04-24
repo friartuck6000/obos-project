@@ -78,8 +78,12 @@ class TimestampManager extends AbstractPersistenceManager
         $timestamp->setProject($project)
             ->setStartStamp();
 
+        // Bump mod date on project
+        $project->update();
+
         // Persist it
         try {
+            $this->entityManager->persist($project);
             $this->entityManager->persist($timestamp);
             $this->entityManager->flush();
         } catch (\Exception $e) {
@@ -112,8 +116,12 @@ class TimestampManager extends AbstractPersistenceManager
         // Close the timestamp
         $timestamp->close();
 
+        // Bump mod date on project
+        $project = $timestamp->getProject()->update();
+
         // Save changes
         try {
+            $this->entityManager->persist($project);
             $this->entityManager->persist($timestamp);
             $this->entityManager->flush();
         } catch (\Exception $e) {
@@ -147,8 +155,12 @@ class TimestampManager extends AbstractPersistenceManager
             return false;
         }
 
+        // Bump project mod date
+        $project = $timestamp->getProject()->update();
+
         // Save the timestamp
         try {
+            $this->entityManager->persist($project);
             $this->entityManager->persist($timestamp);
             $this->entityManager->flush();
         } catch (\Exception $e) {
@@ -170,7 +182,12 @@ class TimestampManager extends AbstractPersistenceManager
     public function deleteTimestamp(Timestamp $timestamp)
     {
         if ($this->entityManager->contains($timestamp)) {
+
+            // Bump project's mod date
+            $project = $timestamp->getProject()->update();
+
             try {
+                $this->entityManager->persist($project);
                 $this->entityManager->remove($timestamp);
                 $this->entityManager->flush();
             } catch(\Exception $e) {

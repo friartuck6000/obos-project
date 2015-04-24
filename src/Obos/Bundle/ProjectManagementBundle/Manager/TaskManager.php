@@ -37,8 +37,12 @@ class TaskManager extends AbstractPersistenceManager
         // Bump the mod date
         $task->update();
 
+        // Bump the mod date on the project too
+        $project = $task->getProject()->update();
+
         // Save the project
         try {
+            $this->entityManager->persist($project);
             $this->entityManager->persist($task);
             $this->entityManager->flush();
         } catch (\Exception $e) {
@@ -68,7 +72,12 @@ class TaskManager extends AbstractPersistenceManager
     public function deleteTask(ProjectTask $task)
     {
         if ($this->entityManager->contains($task)) {
+
+            // Ping the project modification date
+            $project = $task->getProject()->update();
+
             try {
+                $this->entityManager->persist($project);
                 $this->entityManager->remove($task);
                 $this->entityManager->flush();
             } catch (\Exception $e) {
