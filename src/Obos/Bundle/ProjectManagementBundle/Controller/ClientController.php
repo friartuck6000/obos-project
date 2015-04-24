@@ -87,20 +87,9 @@ class ClientController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
 
-            // Check the clicked button to determine whether to save or delete
-            $action = $form->getClickedButton();
-            if ($action) {
-                if (($action->getName()) == 'delete') {
-                    // Delete the client; redirect if successful.
-                    if ($manager->deleteClient($client)) {
-                        return $this->redirectToRoute('projects.root');
-                    }
-                } else {
-                    // Attempt to save the client; redirect if successful.
-                    if ($manager->saveClient($client, $form)) {
-                        return $this->redirectToRoute('projects.root');
-                    }
-                }
+            // Save or delete the client
+            if ($manager->saveOrDeleteClient($client, $form)) {
+                return $this->redirectToRoute('projects.root');
             }
         }
 

@@ -121,4 +121,23 @@ class ClientManager extends AbstractPersistenceManager
 
         return true;
     }
+
+    /**
+     * @param   Client  $client
+     * @param   Form    $form
+     * @return  bool
+     */
+    public function saveOrDeleteClient(Client $client, Form $form)
+    {
+        $action = $form->getClickedButton();
+        if ($action) {
+            if ($action->getName() == 'delete') {
+                return $this->deleteClient($client);
+            } else {
+                return $this->saveClient($client, $form);
+            }
+        }
+
+        return false;
+    }
 }

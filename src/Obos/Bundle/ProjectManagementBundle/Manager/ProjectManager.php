@@ -127,4 +127,24 @@ class ProjectManager extends AbstractPersistenceManager
 
         return true;
     }
+
+    /**
+     * @param   Project  $project
+     * @param   Form     $form
+     * @return  bool
+     */
+    public function saveOrDeleteProject(Project $project, Form $form)
+    {
+        $action = $form->getClickedButton();
+        if ($action) {
+            if ($action->getName() == 'delete') {
+                return $this->deleteProject($project);
+            } else {
+                return $this->saveProject($project, $form);
+            }
+        }
+
+        // Return false if neither of the above was performed
+        return false;
+    }
 }

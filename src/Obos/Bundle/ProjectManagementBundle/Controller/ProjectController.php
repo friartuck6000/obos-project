@@ -141,20 +141,9 @@ class ProjectController extends Controller
         $form->handleRequest($request);
         if ($form->isValid()) {
 
-            // Check the clicked button to determine whether to save or delete
-            $action = $form->getClickedButton();
-            if ($action) {
-                if (($action->getName()) == 'delete') {
-                    // Delete the client; redirect if successful.
-                    if ($manager->deleteProject($project)) {
-                        return $this->redirectToRoute('projects.root');
-                    }
-                } else {
-                    // Attempt to save the client; redirect if successful.
-                    if ($manager->saveProject($project, $form)) {
-                        return $this->redirectToRoute('projects.root');
-                    }
-                }
+            // Save or delete the project depending on the action chosen
+            if ($manager->saveOrDeleteProject($project, $form)) {
+                return $this->redirectToRoute('projects.root');
             }
         }
 
