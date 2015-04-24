@@ -3,6 +3,7 @@
 namespace Obos\Bundle\BillingBundle\Manager;
 
 use Obos\Bundle\CoreBundle\Entity\Invoice;
+use Obos\Bundle\CoreBundle\Entity\Timestamp;
 use Obos\Bundle\CoreBundle\Manager\AbstractPersistenceManager;
 use Obos\Bundle\CoreBundle\Manager\UserDependentTrait;
 use Symfony\Component\Form\Form;
@@ -33,6 +34,11 @@ class InvoiceManager extends AbstractPersistenceManager
         $project = $invoice->getProject()->update();
 
         try {
+            /** @var  Timestamp  $timestamp */
+            foreach ($project->getBillableTimestamps() as $timestamp) {
+                $timestamp->setInvoice($invoice);
+                $this->entityManager->persist($timestamp);
+            }
             $this->entityManager->persist($project);
             $this->entityManager->persist($invoice);
             $this->entityManager->flush();
