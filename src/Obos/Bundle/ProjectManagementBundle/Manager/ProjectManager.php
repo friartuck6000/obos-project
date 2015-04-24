@@ -39,6 +39,13 @@ class ProjectManager extends AbstractPersistenceManager
 
     // -----------------------------------------------------------------------------------------------------------------
 
+    /**
+     * Create or update a project in persistence.
+     *
+     * @param   Project  $project
+     * @param   Form     $form
+     * @return  bool
+     */
     public function saveProject(Project $project, Form $form)
     {
         // Set a flag indicating whether the entity is new
@@ -83,6 +90,38 @@ class ProjectManager extends AbstractPersistenceManager
         // Add confirmation message
         $this->addFlash('success', sprintf(
             'The project <b>%s</b> was successfully saved.',
+            $project->getTitle()
+        ));
+
+        return true;
+    }
+
+    /**
+     * Delete a project.
+     *
+     * @param   Project $project
+     * @return  bool
+     */
+    public function deleteProject(Project $project)
+    {
+        if ($this->entityManager->contains($project)) {
+            try {
+                $this->entityManager->remove($project);
+                $this->entityManager->flush();
+            } catch (\Exception $e) {
+                // Add error message if the database transaction failed
+                $this->addFlash('danger', sprintf(
+                    'The project <b>%s</b> could not be removed because of a database error.',
+                    $project->getTitle()
+                ));
+
+                return false;
+            }
+        }
+
+        // Add confirmation message
+        $this->addFlash('success', sprintf(
+            'The project <b>%s</b> was successfully deleted.',
             $project->getTitle()
         ));
 

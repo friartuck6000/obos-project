@@ -126,7 +126,36 @@ class ProjectController extends Controller
      */
     public function editProjectAction(Request $request, Project $project)
     {
-        // ...
+        // Get the persistence manager
+        $manager = $this->get('obos.manager.project');
+
+        // Build the form around the entity
+        $form = $this->createForm('project', $project);
+
+        // Process form submission if there is one
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+
+            // Check the clicked button to determine whether to save or delete
+            $action = $form->getClickedButton();
+            if ($action) {
+                if (($action->getName()) == 'delete') {
+                    // Delete the client; redirect if successful.
+                    if ($manager->deleteProject($project)) {
+                        return $this->redirectToRoute('projects.root');
+                    }
+                } else {
+                    // Attempt to save the client; redirect if successful.
+                    if ($manager->saveProject($project, $form)) {
+                        return $this->redirectToRoute('projects.root');
+                    }
+                }
+            }
+        }
+
+        return $this->render('project/editProject.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
     /**
