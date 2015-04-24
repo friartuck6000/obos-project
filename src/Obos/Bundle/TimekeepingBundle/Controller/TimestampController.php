@@ -15,9 +15,35 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class TimestampController extends Controller
 {
+    /**
+     * @param   Request  $request
+     * @param   Project  $project
+     * @return  Response
+     *
+     * @Route("/in/{project}", name="timeclock.in")
+     */
     public function punchInAction(Request $request, Project $project)
-    {}
+    {
+        $this->get('obos.manager.timestamp')->punchIn($project);
 
-    public function punchOutAction(Request $request)
-    {}
+        return $this->redirectToRoute('projects.single_view', [
+            'project' => $project->getId()
+        ]);
+    }
+
+    /**
+     * @param   Request  $request
+     * @param   Project  $project
+     * @return  Response
+     *
+     * @Route("/out/{project}", name="timeclock.out")
+     */
+    public function punchOutAction(Request $request, Project $project)
+    {
+        $this->get('obos.manager.timestamp')->punchOut();
+
+        return $this->redirectToRoute('projects.single_view', [
+            'project' => $project->getId()
+        ]);
+    }
 }

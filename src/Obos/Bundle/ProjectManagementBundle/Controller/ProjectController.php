@@ -4,6 +4,7 @@ namespace Obos\Bundle\ProjectManagementBundle\Controller;
 
 use Obos\Bundle\CoreBundle\Entity\Client;
 use Obos\Bundle\CoreBundle\Entity\Project;
+use Obos\Bundle\CoreBundle\Entity\Timestamp;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -17,6 +18,18 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ProjectController extends Controller
 {
+    /**
+     * Look for an open timestamp from the current user.
+     *
+     * @return  Timestamp
+     */
+    public function getOpenTimestamp()
+    {
+        return $this->get('obos.manager.timestamp')->getOpenTimestamp();
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
     /**
      * Projects root.
      *
@@ -78,9 +91,10 @@ class ProjectController extends Controller
         $projects = $projectListBuilder->getQuery()->getResult();
 
         return $this->render('project/index.html.twig', [
-            'actionForm' => $actionForm->createView(),
-            'clients'    => $clients,
-            'projects'   => $projects,
+            'actionForm'    => $actionForm->createView(),
+            'clients'       => $clients,
+            'projects'      => $projects,
+            'openTimestamp' => $this->getOpenTimestamp()
         ]);
     }
 
@@ -165,7 +179,8 @@ class ProjectController extends Controller
     public function viewProjectAction(Request $request, Project $project)
     {
         return $this->render('project/detailView.html.twig', [
-            'project' => $project
+            'project'       => $project,
+            'openTimestamp' => $this->getOpenTimestamp()
         ]);
     }
 }

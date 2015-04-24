@@ -10,6 +10,23 @@
                 Edit Project
                 <i class="icon ion ion-ios-list-outline"></i>
             </a>
+
+            {# punch-in #}
+            {% if openTimestamp %}
+                <a class="btn btn-danger" href="{{
+                    path('timeclock.out', {'project': project.id})
+                }}" title="Punched in on project: {{ openTimestamp.project.title }}">
+                    Punch Out
+                    <i class="icon ion ion-ios-download-outline"></i>
+                </a>
+            {% else %}
+                <a class="btn btn-primary" href="{{
+                    path('timeclock.in', {'project': project.id})
+                }}">
+                    Punch In
+                    <i class="icon ion ion-ios-upload-outline"></i>
+                </a>
+            {% endif %}
         </p>
     </div>
     <hr/>

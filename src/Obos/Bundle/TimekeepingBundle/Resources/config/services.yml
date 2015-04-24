@@ -1,7 +1,7 @@
 services:
 
     # timekeeping manager
-    obos.manager.timeclock:
+    obos.manager.timestamp:
         class: Obos\Bundle\TimekeepingBundle\Manager\TimestampManager
         arguments:
             - '@request_stack'
