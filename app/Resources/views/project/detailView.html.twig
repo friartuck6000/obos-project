@@ -10,12 +10,6 @@
                 Edit Project
                 <i class="icon ion ion-ios-list-outline"></i>
             </a>
-
-            {# add task #}
-            <a class="btn btn-sm btn-success" href="{{ path('tasks.add', {'project': project.id}) }}">
-                New <b>Task</b>
-                <i class="icon ion ion-ios-compose-outline"></i>
-            </a>
         </p>
     </div>
     <hr/>
@@ -62,6 +56,13 @@
             <div class="panel panel-info">
                 <div class="panel-body">
                     <h4>Project Tasks</h4>
+                    <hr/>
+                    <p>
+                        <a class="btn btn-sm btn-success" href="{{ path('tasks.add', {'project': project.id}) }}">
+                            New Task
+                            <i class="icon ion ion-ios-compose-outline"></i>
+                        </a>
+                    </p>
                     <hr/>
                     {% for task in project.allTasks if not task.complete %}
                         <p>
