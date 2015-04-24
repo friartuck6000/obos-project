@@ -35,6 +35,10 @@ class PaymentManager extends AbstractPersistenceManager
         $invoice->addPayment($payment)
             ->refreshAmountDue();
 
+        if ($payment->getAmountPaid() > $invoice->getAmountDue()) {
+            $payment->setAmountPaid($invoice->getAmountDue())
+        }
+
         $project = $invoice->getProject()->update();
 
         try {
