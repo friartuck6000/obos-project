@@ -32,6 +32,18 @@ class InvoiceController extends Controller
         $form = $this->createForm('invoice', $invoice);
 
         $form->handleRequest($request);
+        if ($form->isValid()) {
+
+            // Get the assigned project and calculate the billable amount
+            $project = $invoice->getProject();
+            $billableAmount = $project->getAmountBillable();
+            $invoice->setAmountBilled($billableAmount)
+                ->setAmountDue($billableAmount);
+
+            if ($manager->saveInvoice($invoice, $form)) {
+                return $this->redirectToRoute('billing.root');
+            }
+        }
 
         return $this->render('billing/invoice/addInvoice.html.twig', [
             'form' => $form->createView()
