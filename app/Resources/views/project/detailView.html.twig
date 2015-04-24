@@ -82,7 +82,12 @@
                             {% endif %}
                         </p>
                     {% else %}
-                        <p>No tasks</p>
+                        <p class="text-warning">No tasks to show.</p>
+                    {% endfor %}
+                    {% for task in project.allTasks if task.complete %}
+                        <p class="small">
+                            <del>{{ task.name }}</del>
+                        </p>
                     {% endfor %}
                 </div>
             </div>
