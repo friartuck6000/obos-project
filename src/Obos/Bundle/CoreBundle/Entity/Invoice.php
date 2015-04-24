@@ -150,19 +150,21 @@ class Invoice
     }
 
     /**
+     * @param   int  $round
      * @return  string
      */
-    public function getAmountBilled()
+    public function getAmountBilled($round = 2)
     {
-        return $this->amountBilled;
+        return number_format($this->amountBilled, $round);
     }
 
     /**
+     * @param   int  $round
      * @return  string
      */
-    public function getAmountDue()
+    public function getAmountDue($round = 2)
     {
-        return $this->amountDue;
+        return number_format($this->amountDue, $round);
     }
 
     /**

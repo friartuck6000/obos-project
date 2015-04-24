@@ -114,10 +114,11 @@ class Payment
     }
 
     /**
+     * @param   int  $round
      * @return  string
      */
-    public function getAmountPaid()
+    public function getAmountPaid($round = 2)
     {
-        return $this->amountPaid;
+        return number_format($this->amountPaid, $round);
     }
 }
