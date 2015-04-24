@@ -62,6 +62,21 @@
             <div class="panel panel-info">
                 <div class="panel-body">
                     <h4>Project Tasks</h4>
+                    <hr/>
+                    {% if project.allTasks|length > 0 %}
+                        {% for task in project.allTasks %}
+                            <p>
+                                <a href="{{
+                                path('tasks.edit', {'task': task.id})
+                                }}">{{ task.name }}</a><br/>
+                                <a class="btn btn-xs btn-default" href="{{
+                                path('tasks.complete', {'task': task.id})
+                                }}">Mark Complete <i class="icon ion ion-ios-checkmark-outline"></i></a>
+                            </p>
+                        {% endfor %}
+                    {% else %}
+                        <p>No tasks</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
