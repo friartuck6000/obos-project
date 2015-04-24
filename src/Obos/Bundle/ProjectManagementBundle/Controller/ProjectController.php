@@ -88,7 +88,11 @@ class ProjectController extends Controller
         /** @var  Client[]  $clients */
         $clients = $clientListBuilder->getQuery()->getResult();
         /** @var  Project[]  $projects */
-        $projects = $projectListBuilder->getQuery()->getResult();
+        $projects = $projectListBuilder
+            ->addSelect(['c', 't'])
+            ->leftJoin('p.client', 'c')
+            ->leftJoin('p.timestamps', 't')
+            ->getQuery()->getResult();
 
         return $this->render('project/index.html.twig', [
             'actionForm'    => $actionForm->createView(),
