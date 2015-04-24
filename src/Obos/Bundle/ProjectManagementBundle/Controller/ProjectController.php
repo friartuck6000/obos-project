@@ -72,10 +72,15 @@ class ProjectController extends Controller
             }
         }
 
+        /** @var  Client[]  $clients */
+        $clients = $clientListBuilder->getQuery()->getResult();
+        /** @var  Project[]  $projects */
+        $projects = $projectListBuilder->getQuery()->getResult();
+
         return $this->render('project/index.html.twig', [
             'actionForm' => $actionForm->createView(),
-            'clients'    => $clientListBuilder->getQuery()->getResult(),
-            'projects'   => $projectListBuilder->getQuery()->getResult(),
+            'clients'    => $clients,
+            'projects'   => $projects,
         ]);
     }
 
@@ -170,6 +175,8 @@ class ProjectController extends Controller
      */
     public function viewProjectAction(Request $request, Project $project)
     {
-        return new Response();
+        return $this->render('project/detailView.html.twig', [
+            'project' => $project
+        ]);
     }
 }

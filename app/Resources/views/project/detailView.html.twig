@@ -1,0 +1,82 @@
+{%- extends '_template/bootstrap.html.twig' -%}
+
+{% block pageTitle%}{{ project.title }}{% endblock %}
+
+{% block bodyContent %}
+    <div id="action-toolbar">
+        <p>
+            {# edit project #}
+            <a class="btn btn-info" href="{{ path('projects.edit', {'project': project.id})}}">
+                Edit Project
+                <i class="icon ion ion-ios-list-outline"></i>
+            </a>
+
+            {# add task #}
+            <a class="btn btn-sm btn-success" href="#">
+                New <b>Task</b>
+                <i class="icon ion ion-ios-compose-outline"></i>
+            </a>
+
+            {# add asset #}
+            <a class="btn btn-sm btn-success" href="#">
+                New <b>Asset</b>
+                <i class="icon ion ion-ios-compose-outline"></i>
+            </a>
+        </p>
+    </div>
+    <hr/>
+    <div class="row">
+        <div class="col-sm-8 col-md-7 col-lg-6">
+            {# project detail panel #}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3>Project Details</h3>
+                    <table class="table table-striped">
+                        <tbody>
+                        <tr>
+                            <th scope="row">Client</th>
+                            <td>
+                                <a href="{{ path('clients.edit', {'client': project.client.id}) }}">
+                                    {{ project.client.name }}
+                                </a>&nbsp;<span class="text-muted">(click to edit client)</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Status</th>
+                            <td>{{ project.status }}</td>
+                        </tr>
+                        {% if not project.statusIs(constant('STATUS_COMPLETE', project)) %}
+                        <tr>
+                            <th scope="row">Due</th>
+                            <td>{{ project.dateDue|date('F j, Y g:ia') }}</td>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                            <th scope="row">Rate</th>
+                            <td>
+                                ${{ project.hourlyRate|number_format(2) }}/hr
+                                <span class="text-muted">{{ project.autoBilled ? 'auto-billed' }}</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 col-lg-3">
+            {# tasks panel #}
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    <h4>Project Tasks</h4>
+                </div>
+            </div>
+
+            {# assets panel #}
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    <h4>Project Assets</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
