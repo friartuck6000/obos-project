@@ -34,13 +34,12 @@ class TimestampController extends Controller
     }
 
     /**
-     * @param   Request  $request
      * @param   Project  $project
      * @return  Response
      *
      * @Route("/in/{project}", name="timeclock.in")
      */
-    public function punchInAction(Request $request, Project $project)
+    public function punchInAction(Project $project)
     {
         $this->get('obos.manager.timestamp')->punchIn($project);
 
@@ -50,13 +49,12 @@ class TimestampController extends Controller
     }
 
     /**
-     * @param   Request  $request
      * @param   Project  $project
      * @return  Response
      *
      * @Route("/out/{project}", name="timeclock.out")
      */
-    public function punchOutAction(Request $request, Project $project = null)
+    public function punchOutAction(Project $project = null)
     {
         $this->get('obos.manager.timestamp')->punchOut();
 
