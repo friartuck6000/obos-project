@@ -20,6 +20,16 @@ services:
         calls:
             - [setUser, ['@security.token_storage']]
 
+    # task manager
+    obos.manager.task:
+        class: Obos\Bundle\ProjectManagementBundle\Manager\TaskManager
+        arguments:
+            - '@request_stack'
+            - '@doctrine'
+            - 'ProjectTask'
+        calls:
+            - [setUser, ['@security.token_storage']]
+
     # client form
     obos.form.type.client:
         class: Obos\Bundle\ProjectManagementBundle\Form\Type\ClientType
