@@ -1,0 +1,78 @@
+{%- extends '_template/bootstrap.html.twig' -%}
+
+{% block pageTitle %}Billing Center{% endblock %}
+
+{% block bodyContent %}
+    <div class="row">
+        <div class="col-sm-9 col-md-8">
+
+            {% for project in projects %}
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h4>
+                            <small>{{ project.client.name }}</small>
+                            <br/>
+                            {{ project.title }}
+                        </h4>
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-condensed">
+                                        <tr>
+                                            <th scope="row">Total Earnings</th>
+                                            <td>
+                                                <span class="text-success">${{ project.earnings }}</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Billable</th>
+                                            <td>
+                                                <strong class="text-success">${{ project.amountBillable }}</strong>
+                                                ({{ project.loggedHours }}hr @ ${{ project.hourlyRate }}/hr)
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Unpaid Invoices</th>
+                                            <td>
+                                                {% for invoice in project.unpaidInvoices %}
+                                                {% else %}
+                                                    <i>None outstanding</i>
+                                                {% endfor %}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Paid Invoices</th>
+                                            <td>
+                                                {% for invoice in project.paidInvoices %}
+                                                {% else %}
+                                                    <i>None outstanding</i>
+                                                {% endfor %}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <p>
+                                    <a class="btn btn-sm btn-success" href="#">
+                                        Generate Invoice
+                                        <i class="icon ion ion-ios-plus-outline"></i>
+                                    </a>
+                                </p>
+                                <p>
+                                    <a class="btn btn-sm btn-warning" href="#">
+                                        Add Payment
+                                        <i class="icon ion ion-ios-minus-outline"></i>
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <p class="text-warning">No projects to bill for.</p>
+            {% endfor %}
+
+        </div>
+    </div>
+{% endblock %}
