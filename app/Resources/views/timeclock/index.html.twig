@@ -33,25 +33,40 @@
                         <tr>
                             <th>Start</th>
                             <th>Stop</th>
+                            <th>Hours</th>
                             <th>Project</th>
                             <th>Billed</th>
-                            <th>Description</th>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for timestamp in timestamps %}
                             <tr class="{{ timestamp.open ? 'warning'}}">
-                                <td>{{ timestamp.startStamp|date('y/m/d (g:ia)') }}</td>
+                                <td>{{ timestamp.startStamp|date('g:ia<b\\r>(n/j)')|raw }}</td>
                                 <td>{{ timestamp.stopStamp
-                                    ? timestamp.stopStamp|date('y/m/d (g:ia)')
+                                    ? timestamp.stopStamp|date('g:ia<b\\r>(n/j)')|raw
                                     : '(open)' }}</td>
-                                <td>{{ timestamp.project.title }}</td>
-                                <td>{{ timestamp.billed ? 'Yes' : 'No' }}</td>
-                                <td>{{ timestamp.description }}</td>
+                                <td>{{ timestamp.hours }}</td>
+                                <td>
+                                    {{ timestamp.project.title }}
+                                    {% if timestamp.description %}
+                                        <br/>
+                                        <small class="text-muted"><em>{{ timestamp.description }}</em></small>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                {% if timestamp.billed %}
+                                    <span class="text-success"><b>Yes</b></span>
+                                {% else %}
+                                    <span class="text-warning">No</span>
+                                {% endif %}</td>
                                 <td class="text-right">
-                                    <a class="btn btn-xs btn-default" href=""><i class="ion ion-ios-list-outline"></i></a>
-                                    <a class="btn btn-xs btn-danger" href=""><i class="ion ion-ios-trash-outline"></i></a>
+                                    <a class="btn btn-xs btn-default" href="{{
+                                        path('timeclock.edit_stamp', {'timestamp': timestamp.id})
+                                    }}">Edit <i class="icon ion ion-ios-list-outline"></i></a>
+                                    <a class="btn btn-xs btn-danger" href="{{
+                                        path('timeclock.delete_stamp', {'timestamp': timestamp.id})
+                                    }}">Delete <i class="icon ion ion-ios-trash-outline"></i></a>
                                 </td>
                             </tr>
                         {% else %}
