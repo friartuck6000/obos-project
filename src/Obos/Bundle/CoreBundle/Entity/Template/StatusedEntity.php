@@ -98,4 +98,14 @@ abstract class StatusedEntity
 
         return ($this->status == $queriedStatus);
     }
+
+    /**
+     * Convenience method for checking whether an entity is marked "completed".
+     *
+     * @return  bool
+     */
+    public function isComplete()
+    {
+        return ($this->status == self::STATUS_COMPLETE);
+    }
 }
