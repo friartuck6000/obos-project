@@ -38,7 +38,7 @@
                 <tr>
                     <td>{{ timestamp.hours }}</td>
                     <td>{{ timestamp.description }}</td>
-                    <td>${{ invoice.project.hourlyRate }}/hr</td>
+                    <td>${{ invoice.project.hourlyRate }}<span class="text-muted">/hr</span></td>
                     <td>${{ timestamp.unitPrice }}</td>
                 </tr>
             {% endfor %}
@@ -63,7 +63,7 @@
             <tfoot>
                 <tr>
                     <th class="text-right" colspan="2">Total Payments</th>
-                    <td>${{ totalPayments }}</td>
+                    <td>${{ totalPayments|number_format(2) }}</td>
                 </tr>
             </tfoot>
             <tbody>
