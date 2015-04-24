@@ -9,3 +9,13 @@ services:
             - 'Timestamp'
         calls:
             - [setUser, ['@security.token_storage']]
+
+    # timestamp form
+    obos.form.type.timestamp:
+        class: Obos\Bundle\TimekeepingBundle\Form\Type\TimestampType
+        arguments:
+            - '@security.token_storage'
+        calls:
+            - [setProjectManager, ['@obos.manager.project']]
+        tags:
+            - { name: 'form.type', alias: 'timestamp' }
