@@ -40,12 +40,20 @@
                 'icon': 'ion-ios-compose-outline',
                 'attr': {'class': 'btn-success'}
             }) }}
+
+            {# show punch-out if there is an open timestamp #}
+            {% if openTimestamp %}
+                <a class="btn btn-danger" href="{{
+                path('timeclock.out')
+                }}" title="Punched in on project: {{ openTimestamp.project.title }}">
+                    Punch Out
+                    <i class="icon ion ion-ios-download-outline"></i>
+                </a>
+            {% endif %}
             {{ form_end(actionForm) }}
 
         {% else %}
-
             <p>Welcome to OBOS! Let's <a href="{{ path('clients.add') }}">add your first client</a> and get to work.</p>
-
         {% endif %}
     </div>
     <hr/>

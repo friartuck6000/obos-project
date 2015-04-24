@@ -38,12 +38,18 @@ class TimestampController extends Controller
      *
      * @Route("/out/{project}", name="timeclock.out")
      */
-    public function punchOutAction(Request $request, Project $project)
+    public function punchOutAction(Request $request, Project $project = null)
     {
         $this->get('obos.manager.timestamp')->punchOut();
 
-        return $this->redirectToRoute('projects.single_view', [
-            'project' => $project->getId()
-        ]);
+        // If a project was passed in, redirect to it; otherwise, redirect to the
+        // project listing page
+        if ($project) {
+            return $this->redirectToRoute('projects.single_view', [
+                'project' => $project->getId()
+            ]);
+        } else {
+            return $this->redirectToRoute('projects.root');
+        }
     }
 }
