@@ -2,9 +2,10 @@ services:
 
     # timekeeping manager
     obos.manager.timeclock:
-        class: Obos\Bundle\TimekeepingBundle\Manager\TimeclockManager
+        class: Obos\Bundle\TimekeepingBundle\Manager\TimestampManager
         arguments:
+            - '@request_stack'
             - '@doctrine'
             - 'Timestamp'
         calls:
-            - [setUser, ['@security.context']]
+            - [setUser, ['@security.token_storage']]
