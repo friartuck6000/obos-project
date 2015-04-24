@@ -190,5 +190,11 @@ class ProjectController extends Controller
      * @Route("/{project}/complete", name="projects.complete")
      */
     public function completeProjectAction(Project $project)
-    {}
+    {
+        $this->get('obos.manager.project')->completeProject($project);
+
+        return $this->redirectToRoute('projects.root', [
+            'project' => $project->getId()
+        ]);
+    }
 }

@@ -147,4 +147,40 @@ class ProjectManager extends AbstractPersistenceManager
         // Return false if neither of the above was performed
         return false;
     }
+
+    /**
+     * @param   Project  $project
+     * @return  bool
+     */
+    public function completeProject(Project $project)
+    {
+        $project->setStatus(Project::STATUS_COMPLETE);
+        if (($openTimestamp = $project->getOpenTimestamp())) {
+            $openTimestamp->close();
+        }
+
+        try {
+            $this->entityManager->persist($project);
+            if ($openTimestamp) {
+                $this->entityManager->persist($openTimestamp);
+            }
+            $this->entityManager->flush();
+        } catch (\Exception $e) {
+            // Add error message if the database transaction failed
+            $this->addFlash('danger', sprintf(
+                'The status for project <b>%s</b> could not be updated because of a database error.',
+                $project->getTitle()
+            ));
+
+            return false;
+        }
+
+        // Add confirmation message
+        $this->addFlash('success', sprintf(
+            'The project <b>%s</b> has been completed.',
+            $project->getTitle()
+        ));
+
+        return true;
+    }
 }
