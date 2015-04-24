@@ -29,7 +29,29 @@ class TaskController extends Controller
      * @ParamConverter("project", class="ObosCoreBundle:Project", options={"id" = "project"})
      */
     public function createTaskAction(Request $request, Project $project)
-    {}
+    {
+        // Get the persistence manager
+        $manager = $this->get('obos.manager.task');
+
+        // Initialize the entity and build the form
+        $task = new ProjectTask();
+        $task->setProject($project);
+        $form = $this->createForm('task', $task);
+
+        // Process form submission if there is one
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+
+            // Attempt to save the task; redirect to project view if successful
+            if ($manager->saveTask($task, $form)) {
+                return $this->redirectToRoute('projects.single_view', [
+                    'project' => $project->getId()
+                ]);
+            }
+        }
+
+        return $this->render('task/addTask.html.twig', ['form' => $form->createView()]);
+    }
 
     /**
      * Update or remove a task.
