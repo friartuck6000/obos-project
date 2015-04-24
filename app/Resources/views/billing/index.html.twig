@@ -65,7 +65,9 @@
                                 <i class="icon ion ion-ios-plus-outline"></i>
                             </a>
                             {% if project.unpaidInvoices|length > 0 %}
-                                <a class="btn btn-sm btn-warning" href="#">
+                                <a class="btn btn-sm btn-warning" href="{{
+                                    path('payments.add', {'project': project.id})
+                                }}">
                                     Add Payment
                                     <i class="icon ion ion-ios-minus-outline"></i>
                                 </a>

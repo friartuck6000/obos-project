@@ -270,4 +270,19 @@ class Invoice
 
         return $this->amountDue;
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * @return  string
+     */
+    public function __toString()
+    {
+        return sprintf(
+            '#%s (%s) -- $%s',
+            $this->id,
+            ($this->project instanceof Project) ? $this->project->getTitle() : 'no project',
+            $this->getAmountBilled()
+        );
+    }
 }

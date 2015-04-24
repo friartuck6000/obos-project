@@ -53,7 +53,6 @@ class PaymentType extends UserAwareType
             ->add('invoice', 'entity', [
                 'class'         => 'ObosCoreBundle:Invoice',
                 'query_builder' => $this->invoiceManager->getInvoiceListBuilder(false),
-                'property'      => 'id',
             ])
             ->add('datePaid', 'datetime', [
                 'date_format' => 'MM-dd-yyyy',

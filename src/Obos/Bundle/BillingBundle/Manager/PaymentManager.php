@@ -66,7 +66,7 @@ class PaymentManager extends AbstractPersistenceManager
         $invoice = $payment->getInvoice()->update();
         $invoice->removePayment($payment)
             ->refreshAmountDue();
-        
+
         $project = $invoice->getProject()->update();
 
         if ($this->entityManager->contains($payment)) {
