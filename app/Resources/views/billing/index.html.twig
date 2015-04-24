@@ -50,7 +50,9 @@
                             </table>
                         </div>
                         <p>
-                            <a class="btn btn-sm btn-success" href="#">
+                            <a class="btn btn-sm btn-success" href="{{
+                                path('invoices.generate', {'project': project.id})
+                            }}">
                                 Generate Invoice
                                 <i class="icon ion ion-ios-plus-outline"></i>
                             </a>

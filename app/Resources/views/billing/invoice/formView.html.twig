@@ -1,0 +1,50 @@
+{%- extends '_template/bootstrap.html.twig' -%}
+
+{% block bodyContent %}
+    <div class="row">
+        <div class="col-sm-8 col-md-7 col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                {{ form_start(form) }}
+                    <div class="row">
+                        <div class="col-sm-9">{{ form_row(form.project) }}</div>
+                    </div>
+                    {{ form_row(form.dateDue) }}
+                    <div class="alert alert-info">
+                        <p><b>Wait...where's the amount field?</b></p>
+                        <p>You don't need one! The billed amount for this invoice is automatically calculated
+                            from your unbilled timestamps.</p>
+                    </div>
+                    <hr/>
+                    <div class="buttons">
+                        {% if form.new.vars.data == 0 %}
+                            {{ form_widget(form.submit, {
+                                'label': 'Save Changes',
+                                'icon': 'ion-ios-checkmark-outline',
+                                'attr': {
+                                    'class': 'btn-success'
+                                }
+                            }) }}
+                            {{ form_widget(form.delete, {
+                                'label': 'Delete',
+                                'icon': 'ion-ios-trash-outline',
+                                'attr': {
+                                    'class': 'btn-danger'
+                                }
+                            }) }}
+                        {% else %}
+                            {{ form_widget(form.submit, {
+                                'label': 'Generate Invoice',
+                                'icon': 'ion-ios-checkmark-outline',
+                                'attr': {
+                                    'class': 'btn-success'
+                                }
+                            }) }}
+                        {% endif %}
+                    </div>
+                {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -57,7 +57,7 @@ class InvoiceManager extends AbstractPersistenceManager
     public function deleteInvoice(Invoice $invoice)
     {
         $project = $invoice->getProject()->update();
-        
+
         if ($this->entityManager->contains($invoice)) {
 
 
