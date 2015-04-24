@@ -3,55 +3,54 @@
 {% block pageTitle %}Projects{% endblock %}
 
 {% block bodyContent %}
-    <div class="row">
-        <div class="col-sm-6">
+    {# action toolbar #}
+    <div id="action-toolbar">
 
-            {# action toolbar #}
-            <div id="action-toolbar">
+        {% if clients|length > 0 %}
 
-            {% if clients|length > 0 %}
+            {{ form_start(actionForm, {
+                'attr': {'class': 'form-inline'}
+            }) }}
 
-                {{ form_start(actionForm, {
-                    'attr': {'class': 'form-inline'}
-                }) }}
+            {# client selection box #}
+            {{ form_label(actionForm.client, 'Label', {
+                'label_attr': {'class': 'sr-only'}
+            }) }}
+            {{ form_widget(actionForm.client, {
+                'attr': {'class': 'input-sm'}
+            }) }}
 
-                {# client selection box #}
-                {{ form_label(actionForm.client, 'Label', {
-                    'label_attr': {'class': 'sr-only'}
-                }) }}
-                {{ form_widget(actionForm.client, {
-                    'attr': {'class': 'input-sm'}
-                }) }}
-
-                {# client actions #}
-                <div class="btn-group" role="group" aria-label="Client Actions">
-                    {{ form_widget(actionForm.createClient, {
-                        'label': 'New Client',
-                        'icon': 'ion-ios-compose-outline',
-                        'attr': {'class': 'btn btn-sm btn-warning'}
-                    }) }}
-                    {{ form_widget(actionForm.editClient, {
-                        'label': 'Edit Client',
-                        'icon': 'ion-ios-list-outline',
-                        'attr': {'class': 'btn btn-sm btn-info'}
-                    })}}
-                </div>
-
-                {# create project #}
-                {{ form_widget(actionForm.createProject, {
-                    'label': 'Create Project',
+            {# client actions #}
+            <div class="btn-group" role="group" aria-label="Client Actions">
+                {{ form_widget(actionForm.createClient, {
+                    'label': 'New Client',
                     'icon': 'ion-ios-compose-outline',
-                    'attr': {'class': 'btn-success'}
+                    'attr': {'class': 'btn btn-sm btn-warning'}
                 }) }}
-                {{ form_end(actionForm) }}
-
-            {% else %}
-
-                <p>Welcome to OBOS! Let's <a href="{{ path('clients.add') }}">add your first client</a> and get to work.</p>
-
-            {% endif %}
+                {{ form_widget(actionForm.editClient, {
+                    'label': 'Edit Client',
+                    'icon': 'ion-ios-list-outline',
+                    'attr': {'class': 'btn btn-sm btn-info'}
+                })}}
             </div>
-            <hr/>
+
+            {# create project #}
+            {{ form_widget(actionForm.createProject, {
+                'label': 'Create Project',
+                'icon': 'ion-ios-compose-outline',
+                'attr': {'class': 'btn-success'}
+            }) }}
+            {{ form_end(actionForm) }}
+
+        {% else %}
+
+            <p>Welcome to OBOS! Let's <a href="{{ path('clients.add') }}">add your first client</a> and get to work.</p>
+
+        {% endif %}
+    </div>
+    <hr/>
+    <div class="row">
+        <div class="col-sm-8 col-md-7 col-lg-6">
 
             <div id="project-listing">
             {% if projects|length > 0 %}
@@ -96,6 +95,15 @@
             {% endif %}
             </div>
         </div>
+        {% if projects|length > 0 %}
+        <div class="col-sm-4 col-lg-3">
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    <h3>Quick Punch-In</h3>
+                </div>
+            </div>
+        </div>
+        {% endif %}
 
     </div>
 {% endblock %}
