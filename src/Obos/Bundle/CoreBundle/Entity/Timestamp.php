@@ -211,4 +211,23 @@ class Timestamp
 
         return $this->startStamp->diff($this->stopStamp, TRUE);
     }
+
+    /**
+     * Calculate the number of hours recorded by the timestamp.
+     *
+     * @param   int  $round
+     * @return  string
+     */
+    public function getHours($round = 2)
+    {
+        $interval = $this->getLength();
+
+        // Calculate hours
+        $hours = $interval->h
+            + ($interval->i / 60)
+            + ($interval->s / 3600)
+            + ($interval->d * 24);
+
+        return number_format($hours, $round);
+    }
 }

@@ -8,6 +8,7 @@ use Obos\Bundle\CoreBundle\Entity\Timestamp;
 use Obos\Bundle\CoreBundle\Exception\InvalidArgumentException;
 use Obos\Bundle\CoreBundle\Manager\AbstractPersistenceManager;
 use Obos\Bundle\CoreBundle\Manager\UserDependentTrait;
+use Symfony\Component\Form\Form;
 
 
 class TimestampManager extends AbstractPersistenceManager
@@ -126,5 +127,80 @@ class TimestampManager extends AbstractPersistenceManager
         $this->addFlash('success', 'You have been punched out.');
 
         return true;
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * @param   Timestamp  $timestamp
+     * @param   Form       $form
+     * @return  bool
+     */
+    public function saveTimestamp(Timestamp $timestamp, Form $form)
+    {
+        // Validate user association
+        if (!$this->userMatches($form->get('consultantID'))) {
+
+            // Add an error message if the association isn't valid
+            $this->addFlash('danger', 'Timestamp could not be saved.');
+
+            return false;
+        }
+
+        // Save the timestamp
+        try {
+            $this->entityManager->persist($timestamp);
+            $this->entityManager->flush();
+        } catch (\Exception $e) {
+            $this->addFlash('danger', 'The timestamp could not be saved because of a database error.');
+
+            return false;
+        }
+
+        // Add confirmation message
+        $this->addFlash('success', 'The timestamp was saved successfully.');
+
+        return true;
+    }
+
+    /**
+     * @param   Timestamp  $timestamp
+     * @return  bool
+     */
+    public function deleteTimestamp(Timestamp $timestamp)
+    {
+        if ($this->entityManager->contains($timestamp)) {
+            try {
+                $this->entityManager->remove($timestamp);
+                $this->entityManager->flush();
+            } catch(\Exception $e) {
+                $this->addFlash('danger', 'The timestamp could not be removed because of a database error.');
+
+                return false;
+            }
+        }
+
+        $this->addFlash('success', 'The timestamp was removed successfully.');
+
+        return true;
+    }
+
+    /**
+     * @param   Timestamp  $timestamp
+     * @param   Form       $form
+     * @return  bool
+     */
+    public function saveOrDeleteTimestamp(Timestamp $timestamp, Form $form)
+    {
+        $action = $form->getClickedButton();
+        if ($action) {
+            if ($action->getName() == 'delete') {
+                return $this->deleteTimestamp($timestamp);
+            } else {
+                return $this->saveTimestamp($timestamp, $form);
+            }
+        }
+
+        return false;
     }
 }
