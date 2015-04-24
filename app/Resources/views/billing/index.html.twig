@@ -58,12 +58,14 @@
                             </table>
                         </div>
                         <p>
-                            <a class="btn btn-sm btn-success" href="{{
-                                path('invoices.generate', {'project': project.id})
-                            }}">
-                                Generate Invoice
-                                <i class="icon ion ion-ios-plus-outline"></i>
-                            </a>
+                            {% if project.amountBillable > 0 %}
+                                <a class="btn btn-sm btn-success" href="{{
+                                    path('invoices.generate', {'project': project.id})
+                                }}">
+                                    Generate Invoice
+                                    <i class="icon ion ion-ios-plus-outline"></i>
+                                </a>
+                            {% endif %}
                             {% if project.unpaidInvoices|length > 0 %}
                                 <a class="btn btn-sm btn-warning" href="{{
                                     path('payments.add', {'project': project.id})
