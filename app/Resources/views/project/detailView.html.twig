@@ -68,10 +68,15 @@
                         <p>
                             <a href="{{
                             path('tasks.edit', {'task': task.id})
-                            }}">{{ task.name }}</a><br/>
+                            }}" title="{{ task.description }}">{{ task.name }}</a>
+                            <br/>
                             <a class="btn btn-xs btn-default" href="{{
                             path('tasks.complete', {'task': task.id})
                             }}">Mark Complete <i class="icon ion ion-ios-checkmark-outline"></i></a>
+                            {% if task.overdue %}
+                                <br/>
+                                <small class="text-danger">Overdue</small>
+                            {% endif %}
                         </p>
                     {% else %}
                         <p>No tasks</p>
