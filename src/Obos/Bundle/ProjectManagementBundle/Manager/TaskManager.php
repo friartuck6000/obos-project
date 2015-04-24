@@ -93,6 +93,26 @@ class TaskManager extends AbstractPersistenceManager
 
     /**
      * @param   ProjectTask  $task
+     * @param   Form         $form
+     * @return  bool
+     */
+    public function saveOrDeleteTask(ProjectTask $task, Form $form)
+    {
+        $action = $form->getClickedButton();
+        if ($action) {
+            if ($action->getName() == 'delete') {
+                return $this->deleteTask($task);
+            } else {
+                return $this->saveTask($task, $form);
+            }
+        }
+
+        // Return false if neither of the above was performed
+        return false;
+    }
+
+    /**
+     * @param   ProjectTask  $task
      * @return  bool
      */
     public function completeTask(ProjectTask $task)
