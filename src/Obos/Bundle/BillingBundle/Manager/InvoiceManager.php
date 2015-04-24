@@ -15,6 +15,27 @@ class InvoiceManager extends AbstractPersistenceManager
 
     // -----------------------------------------------------------------------------------------------------------------
 
+    public function getInvoiceListBuilder($includePaid = true)
+    {
+        $builder = $this->entityManager->createQueryBuilder()
+            ->select('i')
+            ->from('ObosCoreBundle:Invoice', 'i')
+            ->join('i.project', 'p')
+            ->where('p.consultant = ?1')
+            ->orderBy('i.dateDue', 'ASC')
+            ->setParameter(1, $this->user);
+
+        if (!$includePaid) {
+            $builder
+                ->andWhere('i.paid = ?2')
+                ->setParameter(2, 0);
+        }
+
+        return $builder;
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
     /**
      * @param   Invoice  $invoice
      * @param   Form     $form

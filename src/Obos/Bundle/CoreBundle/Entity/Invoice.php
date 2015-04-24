@@ -139,6 +139,30 @@ class Invoice
         return $this;
     }
 
+    /**
+     * @param   Payment  $payment
+     * @return  $this
+     */
+    public function addPayment(Payment $payment)
+    {
+        if (!$this->payments->contains($payment)) {
+            $this->payments->add($payment);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param   Payment  $payment
+     * @return  $this
+     */
+    public function removePayment(Payment $payment)
+    {
+        $this->payments->removeElement($payment);
+
+        return $this;
+    }
+
     // -----------------------------------------------------------------------------------------------------------------
 
     /**

@@ -33,8 +33,9 @@
                                     <th scope="row">Unpaid Invoices</th>
                                     <td>
                                         {% for invoice in project.unpaidInvoices %}
-                                            ${{ invoice.refreshAmountDue }}
-                                            (due {{ invoice.dateDue|date('m/d/y')}})
+                                            #{{ invoice.id }}
+                                            (${{ invoice.refreshAmountDue }} &ndash;
+                                            due {{ invoice.dateDue|date('m/d/y')}})
                                             {% if not loop.last %}<br/>{% endif %}
                                         {% else %}
                                             <i>None outstanding</i>
@@ -45,8 +46,12 @@
                                     <th scope="row">Paid Invoices</th>
                                     <td>
                                         {% for invoice in project.paidInvoices %}
+                                            #{{ invoice.id }}
+                                            (${{ invoice.amountBilled }} &ndash;
+                                            due {{ invoice.dateDue|date('m/d/y')}})
+                                            {% if not loop.last %}<br/>{% endif %}
                                         {% else %}
-                                            <i>None outstanding</i>
+                                            <i>No paid invoices yet</i>
                                         {% endfor %}
                                     </td>
                                 </tr>
