@@ -90,6 +90,12 @@ class ClientManager extends AbstractPersistenceManager
         return true;
     }
 
+    /**
+     * Delete a client.
+     *
+     * @param   Client  $client
+     * @return  bool
+     */
     public function deleteClient(Client $client)
     {
         if ($this->entityManager->contains($client)) {
