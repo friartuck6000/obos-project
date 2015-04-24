@@ -63,7 +63,10 @@ class TaskType extends UserAwareType
                 'date_widget' => 'choice',
             ])
             ->add('category', 'choice', [
-                'choices' => ProjectTask::getCategoryOptions()
+                'choices' => array_combine(
+                    ProjectTask::getCategoryOptions(),
+                    ProjectTask::getCategoryOptions()
+                    )
             ]);
 
         $builder
