@@ -64,7 +64,25 @@ class TaskController extends Controller
      * @ParamConverter("task", class="ObosCoreBundle:ProjectTask", options={"id" = "task"})
      */
     public function editTaskAction(Request $request, ProjectTask $task)
-    {}
+    {
+        // Get the persistence manager
+        $manager = $this->get('obos.manager.task');
+
+        // Build form
+        $form = $this->createForm('task', $task);
+
+        // Handle submission
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            if ($manager->saveOrDeleteTask($task, $form)) {
+                return $this->redirectToRoute('projects.single_view', [
+                    'project' => $task->getProject()->getId()
+                ]);
+            }
+        }
+
+        return $this->render('task/editTask.html.twig', ['form' => $form->createView()]);
+    }
 
     /**
      * Mark a task completed.
@@ -77,5 +95,11 @@ class TaskController extends Controller
      * @ParamConverter("task", class="ObosCoreBundle:ProjectTask", options={"id" = "task"})
      */
     public function completeTaskAction(Request $request, ProjectTask $task)
-    {}
+    {
+        $this->get('obos.manager.task')->completeTask($task);
+
+        return $this->redirectToRoute('projects.single_view', [
+            'project' => $task->getProject()->getId()
+        ]);
+    }
 }
