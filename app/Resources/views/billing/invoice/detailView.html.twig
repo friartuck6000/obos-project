@@ -1,0 +1,82 @@
+{%- extends '_template/bootstrap.html.twig' -%}
+
+{% block pageTitle %}Invoice #{{ invoice.id }}{% endblock %}
+
+{% block bodyContent %}
+    <div class="row">
+        <div class="col-md-6">
+            <p class="h4"><b>Bill to:</b>
+                {{ app.user.firstName ~' '~ app.user.lastName }}</p>
+            <p><b>Due:</b> {{ invoice.dateDue|date('F j, Y') }}</p>
+        </div>
+        <div class="col-md-6 text-right">
+            <p class="h4">
+                Balance:
+                <br/>
+                <span class="text-success"><b>${{ invoice.amountDue }}</b></span>
+            </p>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Hours</th>
+                    <th>Description of Work</th>
+                    <th>Hourly Rate</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th class="text-right" colspan="3">Total Billed</th>
+                    <td>${{ invoice.amountBilled }}</td>
+                </tr>
+            </tfoot>
+            <tbody>
+            {% for timestamp in invoice.timestamps %}
+                <tr>
+                    <td>{{ timestamp.hours }}</td>
+                    <td>{{ timestamp.description }}</td>
+                    <td>${{ invoice.project.hourlyRate }}/hr</td>
+                    <td>${{ timestamp.unitPrice }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <hr/>
+    <h3>Payments Received</h3>
+    {%- set totalPayments = 0 -%}
+    {%- for payment in invoice.payments -%}
+        {%- set totalPayments = totalPayments + payment.amountPaid -%}
+    {%- endfor -%}
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Receipt</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th class="text-right" colspan="2">Total Payments</th>
+                    <td>${{ totalPayments }}</td>
+                </tr>
+            </tfoot>
+            <tbody>
+            {% for payment in invoice.payments %}
+                <tr>
+                    <td>#{{ payment.id }}</td>
+                    <td>{{ payment.datePaid|date('m/d/y') }}</td>
+                    <td>${{ payment.amountPaid }}</td>
+                </tr>
+            {% else %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

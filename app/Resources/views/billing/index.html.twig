@@ -33,7 +33,9 @@
                                     <th scope="row">Unpaid Invoices</th>
                                     <td>
                                         {% for invoice in project.unpaidInvoices %}
-                                            #{{ invoice.id }}
+                                            <a href="{{
+                                            path('invoices.single_view', {'invoice': invoice.id})
+                                            }}">#{{ invoice.id }}</a>
                                             (${{ invoice.refreshAmountDue }} &ndash;
                                             due {{ invoice.dateDue|date('m/d/y')}})
                                             {% if not loop.last %}<br/>{% endif %}
@@ -46,7 +48,9 @@
                                     <th scope="row">Paid Invoices</th>
                                     <td>
                                         {% for invoice in project.paidInvoices %}
-                                            #{{ invoice.id }}
+                                            <a href="{{
+                                                path('invoices.single_view', {'invoice': invoice.id})
+                                            }}">#{{ invoice.id }}</a>
                                             (${{ invoice.amountBilled }} &ndash;
                                             due {{ invoice.dateDue|date('m/d/y')}})
                                             {% if not loop.last %}<br/>{% endif %}

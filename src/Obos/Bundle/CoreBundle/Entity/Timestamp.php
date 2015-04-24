@@ -230,4 +230,22 @@ class Timestamp
 
         return number_format($hours, $round);
     }
+
+    /**
+     * Use project's hourly rate to calculate line item cost for the timestamp.
+     *
+     * @param   int  $round
+     * @return  string
+     */
+    public function getUnitPrice($round = 2)
+    {
+        if ($this->project instanceof Project) {
+            return number_format(
+                ($this->project->getHourlyRate() * $this->getHours()),
+                $round
+            );
+        }
+
+        return '0.00';
+    }
 }

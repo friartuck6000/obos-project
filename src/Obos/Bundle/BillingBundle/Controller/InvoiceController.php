@@ -49,4 +49,17 @@ class InvoiceController extends Controller
             'form' => $form->createView()
         ]);
     }
+
+    /**
+     * @param   Invoice  $invoice
+     * @return  Response
+     *
+     * @Route("/{invoice}/view", name="invoices.single_view")
+     */
+    public function viewInvoiceAction(Invoice $invoice)
+    {
+        return $this->render('billing/invoice/detailView.html.twig', [
+            'invoice' => $invoice
+        ]);
+    }
 }
