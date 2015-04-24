@@ -103,6 +103,16 @@ class Project extends Template\StatusedEntity
     protected $assets;
 
     /**
+     * @var  ArrayCollection  A collection of invoices against this project.
+     *
+     * @ORM\OneToMany(targetEntity="Invoice", mappedBy="project")
+     * @ORM\OrderBy({
+     *     "dateModified" = "DESC"
+     * })
+     */
+    protected $invoices;
+
+    /**
      * Constructor; required to initialize collections.
      *
      */
@@ -111,6 +121,7 @@ class Project extends Template\StatusedEntity
         $this->timestamps = new ArrayCollection();
         $this->tasks = new ArrayCollection();
         $this->assets = new ArrayCollection();
+        $this->invoices = new ArrayCollection();
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -346,11 +357,64 @@ class Project extends Template\StatusedEntity
 
     /**
      * Get the entire asset list.
-     * 
+     *
      * @return  ArrayCollection
      */
     public function getAllAssets()
     {
         return $this->assets;
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Get the entire invoice list.
+     *
+     * @return  ArrayCollection
+     */
+    public function getAllInvoices()
+    {
+        return $this->invoices;
+    }
+
+    /**
+     * Get paid invoices only.
+     *
+     * @return  ArrayCollection
+     */
+    public function getPaidInvoices()
+    {
+        return $this->invoices->filter(function(Invoice $i) {
+            return ($i->isPaid());
+        });
+    }
+
+    /**
+     * Get unpaid invoices only.
+     *
+     * @return  ArrayCollection
+     */
+    public function getUnpaidInvoices()
+    {
+        return $this->invoices->filter(function(Invoice $i) {
+            return (!$i->isPaid());
+        });
+    }
+
+    public function getEarnings($round = 2)
+    {
+        $total = 0.00;
+
+        /** @var  Invoice  $invoice */
+        foreach ($this->invoices as $invoice) {
+            $payments = $invoice->getPayments();
+
+            /** @var  Payment  $payment */
+            foreach ($payments as $payment) {
+                $total += $payment->getAmountPaid();
+            }
+        }
+
+        return number_format($total, $round);
     }
 }

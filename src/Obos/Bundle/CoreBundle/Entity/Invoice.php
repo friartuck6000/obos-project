@@ -26,7 +26,7 @@ class Invoice
     /**
      * @var  Project  The project this invoices is associated with.
      *
-     * @ORM\ManyToOne(targetEntity="Project")
+     * @ORM\ManyToOne(targetEntity="Project", inversedBy="invoices")
      * @ORM\JoinColumn(name="projectID", referencedColumnName="ID", onDelete="CASCADE")
      */
     protected $project;
