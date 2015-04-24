@@ -66,6 +66,20 @@
                                 <span class="text-muted">{{ project.autoBilled ? 'auto-billed' }}</span>
                             </td>
                         </tr>
+                        <tr>
+                            <th scope="row">Time Logged</th>
+                            <td>
+                                {{ project.loggedHours(false) }} hours
+                                ({{ project.allTimestamps|length }} timestamps)
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Currently Billable</th>
+                            <td>
+                                ${{ project.amountBillable }}
+                                ({{ project.loggedHours }} hours)
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>

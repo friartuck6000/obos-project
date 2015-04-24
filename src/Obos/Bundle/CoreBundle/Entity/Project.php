@@ -304,6 +304,33 @@ class Project extends Template\StatusedEntity
         return $start->diff($end, TRUE);
     }
 
+    /**
+     * Calculate an actual hour value for logged time.
+     *
+     * @param   bool  $billableOnly
+     * @param   int   $round
+     * @return  string
+     */
+    public function getLoggedHours($billableOnly = true, $round = 2)
+    {
+        // Get a DateInterval
+        $interval = $this->getLoggedTime($billableOnly);
+
+        // Calculate hours
+        $hours = $interval->h
+            + ($interval->i / 60)
+            + ($interval->s / 3600)
+            + ($interval->d * 24);
+
+        return number_format($hours, $round);
+    }
+
+    public function getAmountBillable($hourRounding = 2)
+    {
+        $amount = ($this->getLoggedHours(true, $hourRounding) * $this->hourlyRate);
+        return number_format($amount, 2);
+    }
+
     // -----------------------------------------------------------------------------------------------------------------
 
     /**
