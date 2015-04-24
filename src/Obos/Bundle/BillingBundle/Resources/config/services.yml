@@ -11,6 +11,14 @@ services:
             - [setUser, ['@security.token_storage']]
 
     # payment manager
+    obos.manager.payment:
+        class: Obos\Bundle\BillingBundle\Manager\PaymentManager
+        arguments:
+            - '@request_stack'
+            - '@doctrine'
+            - 'Payment'
+        calls:
+            - [setUser, ['@security.token_storage']]
 
     # invoice form
     obos.form.type.invoice:
@@ -23,3 +31,11 @@ services:
             - { name: 'form.type', alias: 'invoice' }
 
     # payment form
+    obos.form.type.payment:
+        class: Obos\Bundle\BillingBundle\Form\Type\PaymentType
+        arguments:
+            - '@security.token_storage'
+        calls:
+            - [setInvoiceManager, ['@obos.manager.invoice']]
+        tags:
+            - { name: 'form.type', alias: 'payment' }

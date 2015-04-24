@@ -1,0 +1,14 @@
+{%- extends '_template/bootstrap.html.twig' -%}
+
+{% block bodyContent %}
+    <div class="row">
+        <div class="col-sm-9 col-md-8 col-lg-7">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {{ form_start(form) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
